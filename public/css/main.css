@@ -90,6 +90,24 @@ h2 {
   margin-bottom: 20px;
 }
 
+section {
+  margin: 20px 0;
+}
+
+section li {
+  float: left;
+  margin-right: 20px;
+}
+
+section li:after {
+  content: '.';
+  margin-left: 20px;
+}
+
+section li:last-child:after {
+  content: '';
+}
+
 .wrapper {
   font-size: 1rem;
 }
