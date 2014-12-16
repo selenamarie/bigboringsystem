@@ -114,6 +114,7 @@ input, textarea {
   font-family: Inconsolata;
   font-size: 1rem;
   max-width: 450px;
+  min-width: 200px;
   margin-top: 3px;
   padding: 3px;
   width: 100%;
@@ -121,6 +122,14 @@ input, textarea {
 
 textarea {
   resize: none;
+}
+
+.error {
+  background-color: #f7135e;
+  color: #fff;
+  display: inline-block;
+  margin-top: 1px;
+  padding: 2px 3px;
 }
 
 section {

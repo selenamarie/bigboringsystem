@@ -47,7 +47,7 @@ var routes = [
     config: {
       validate: {
         payload: {
-          phone: Joi.number().integer().min(10).max(15)
+          phone: Joi.string().regex(/^[0-9]+$/).min(10).max(15)
         }
       }
     }
