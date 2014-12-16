@@ -3,9 +3,11 @@
 var Hapi = require('hapi');
 var nconf = require('nconf');
 var Boom = require('boom');
+var Joi = require('joi');
 
 var services = require('./lib/services');
 var profile = require('./lib/profile');
+var auth = require('./lib/auth');
 
 nconf.argv().env().file({ file: 'local.json' });
 
@@ -31,22 +33,40 @@ var routes = [
   {
     method: 'GET',
     path: '/',
+    handler: services.home
+  },
+  {
+    method: 'GET',
+    path: '/login',
+    handler: services.home
+  },
+  {
+    method: 'POST',
+    path: '/login',
+    handler: auth.login,
     config: {
-      handler: services.home
+      validate: {
+        payload: {
+          phone: Joi.number().integer().min(10).max(15)
+        }
+      }
     }
   },
   {
     method: 'GET',
     path: '/profile',
-    config: {
-      handler: services.profile
-    }
+    handler: services.profile
   },
   {
     method: 'POST',
     path: '/profile',
+    handler: profile.update,
     config: {
-      handler: profile.update
+      validate: {
+        payload: {
+          name: Joi.string().min(2).max(30)
+        }
+      }
     }
   }
 ];
@@ -73,12 +93,27 @@ server.ext('onPreResponse', function (request, reply) {
   }
 
   var error = response;
-  console.log(error)
-  var ctx = {
-    reason: (error.output.statusCode === 404 ? 'page not found' : 'something went wrong')
-  };
+  var ctx = {};
 
-  return reply.view('error', ctx);
+  switch (error.output.statusCode) {
+    case 404:
+      ctx.reason = 'page not found';
+      break;
+    case 403:
+      ctx.reason = 'forbidden';
+      break;
+    case 500:
+      ctx.reason = 'something went wrong';
+      break;
+    default:
+      break;
+  }
+
+  if (ctx.reason) {
+    return reply.view('error', ctx);
+  } else {
+    reply.redirect(request.path + '?err=' + error.output.payload.message.replace(/\s/gi, '+'));
+  }
 });
 
 server.register({
@@ -88,5 +123,17 @@ server.register({
     throw err;
   }
 });
+
+var options = {
+  cookieOptions: {
+    password: nconf.get('cookie'),
+    isSecure: false
+  }
+};
+
+server.register({
+  register: require('yar'),
+  options: options
+}, function (err) { });
 
 server.start();

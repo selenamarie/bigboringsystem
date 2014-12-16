@@ -18,16 +18,25 @@ html
     .wrapper
       section
         ul
-          li
-            a(href='/profile') your profile
-          li
-            a(href='/messages') messages
-          li
-            a(href='/posts') posts
-          li
-            a(href='/chat') public chat
-          li
-            a(href='/discover') discover
-          li
-            a(href='/logout') log out
+          if session
+            li
+              a(href='/profile') your profile
+            li
+              a(href='/messages') messages
+            li
+              a(href='/posts') posts
+            li
+              a(href='/chat') public chat
+            li
+              a(href='/discover') discover
+            li
+              a(href='/logout') log out
+          else
+            li
+              form(method='post', action='/login')
+                input(type='tel', name='phone', required)
+                if error
+                  p.error= error
+                input(type='hidden', name='crumb', value='#{crumb}')
+                button(type='submit') log in
       block content
