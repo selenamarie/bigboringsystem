@@ -12,7 +12,22 @@ html
   body
     .back
     header
-      p b.b.s.
+      p
+        a(href='/') b.b.s.
 
     .wrapper
+      section
+        ul
+          li
+            a(href='/profile') your profile
+          li
+            a(href='/messages') messages
+          li
+            a(href='/posts') posts
+          li
+            a(href='/chat') public chat
+          li
+            a(href='/discover') discover
+          li
+            a(href='/logout') log out
       block content

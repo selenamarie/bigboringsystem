@@ -75,9 +75,15 @@ a {
   text-decoration: none;
 }
 
-header, .wrapper {
+header, .wrapper, section {
   position: relative;
   z-index: 2;
+}
+
+section {
+  float: left;
+  clear: both;
+  width: 100%;
 }
 
 header {
@@ -88,6 +94,33 @@ header {
 h2 {
   font-size: 2.1rem;
   margin-bottom: 20px;
+}
+
+label, button {
+  display: block;
+  margin-top: 10px;
+}
+
+button {
+  border: 1px solid #ccc;
+  font-family: Inconsolata;
+  font-size: 1.4rem;
+  padding: 3px 10px;
+}
+
+input, textarea {
+  display: block;
+  clear: both;
+  font-family: Inconsolata;
+  font-size: 1rem;
+  max-width: 450px;
+  margin-top: 3px;
+  padding: 3px;
+  width: 100%;
+}
+
+textarea {
+  resize: none;
 }
 
 section {

@@ -5,6 +5,7 @@ var nconf = require('nconf');
 var Boom = require('boom');
 
 var services = require('./lib/services');
+var profile = require('./lib/profile');
 
 nconf.argv().env().file({ file: 'local.json' });
 
@@ -33,6 +34,20 @@ var routes = [
     config: {
       handler: services.home
     }
+  },
+  {
+    method: 'GET',
+    path: '/profile',
+    config: {
+      handler: services.profile
+    }
+  },
+  {
+    method: 'POST',
+    path: '/profile',
+    config: {
+      handler: profile.update
+    }
   }
 ];
 
@@ -58,6 +73,7 @@ server.ext('onPreResponse', function (request, reply) {
   }
 
   var error = response;
+  console.log(error)
   var ctx = {
     reason: (error.output.statusCode === 404 ? 'page not found' : 'something went wrong')
   };

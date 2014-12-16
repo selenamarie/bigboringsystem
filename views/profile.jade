@@ -1,0 +1,15 @@
+extend layout
+
+block content
+  h1 profile
+
+  section
+    form(method='post', action='/profile')
+      label(for='name') name*
+        input(type='text', name='name', required)
+      label(for='websites') websites (comma delimited)
+        input(type='text', name='websites')
+      label(for='bio') bio
+        textarea(rows='5', cols='50', name='bio')
+      input(type='hidden', name='crumb', value='#{crumb}')
+      button(type='submit') save
