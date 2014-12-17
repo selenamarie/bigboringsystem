@@ -47,10 +47,19 @@ var routes = [
     config: {
       validate: {
         payload: {
-          phone: Joi.string().regex(/^[0-9]+$/).min(10).max(15)
+          phone: Joi.string().regex(/^[0-9]+$/).min(10).max(15).options({
+            language: {
+              label: 'phone number'
+            }
+          })
         }
       }
     }
+  },
+  {
+    method: 'GET',
+    path: '/logout',
+    handler: auth.logout
   },
   {
     method: 'GET',
@@ -64,7 +73,9 @@ var routes = [
     config: {
       validate: {
         payload: {
-          name: Joi.string().min(2).max(30)
+          name: Joi.string().min(2).max(30),
+          websites: Joi.string().allow(''),
+          bio: Joi.string().allow('')
         }
       }
     }
