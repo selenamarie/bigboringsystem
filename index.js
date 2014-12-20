@@ -41,6 +41,23 @@ var routes = [
     handler: services.home
   },
   {
+    method: 'GET',
+    path: '/authenticate',
+    handler: services.authenticate
+  },
+  {
+    method: 'POST',
+    path: '/authenticate',
+    handler: auth.authenticate,
+    config: {
+      validate: {
+        payload: {
+          pin: Joi.number().integer().min(1111).max(9999)
+        }
+      }
+    }
+  },
+  {
     method: 'POST',
     path: '/login',
     handler: auth.login,

@@ -54,19 +54,20 @@ body {
 }
 
 .back {
-  background-color: rgba(34, 240, 253, 0.15);
-  border-right: 25px solid rgba(34, 240, 253, 0.25);
+  border-left: 1px solid #5bdeff;
+  background-color: rgba(255, 255, 255, 0.35);
+  border-right: 1px solid rgba(255, 255, 255, 0.55);
   bottom: 0;
   left: 200px;
   position: fixed;
-  width: 100px;
+  width: 120px;
   top: 0;
   z-index: 1;
 }
 
 .error .back {
-  background-color: rgba(34, 240, 253, 0.20);
-  border-right: 25px solid rgba(34, 240, 253, 0.28);
+  background-color: rgba(1, 1, 1, 0.20);
+  border-right: 25px solid rgba(1, 1, 1, 0.28);
 }
 
 a {
@@ -81,18 +82,23 @@ header, .wrapper, section {
 
 section {
   float: left;
-  clear: both;
-  width: 100%;
 }
 
 header {
   font-size: 1.4rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-h2 {
-  font-size: 2.1rem;
-  margin-bottom: 20px;
+h1, h2 {
+  font-size: 1.9rem;
+}
+
+h1 {
+  color: #5bdeff;
+}
+
+.error h2 {
+  margin: 20px 0;
 }
 
 label, button {
@@ -100,20 +106,28 @@ label, button {
   margin-top: 10px;
 }
 
+label {
+  margin: 10px 0 5px;
+  padding-bottom: 5px;
+}
+
 button {
-  border: 1px solid #ccc;
+  background-color: #5bdeff;
+  border: 0;
+  color: #fff;
   font-family: Inconsolata;
   font-size: 1.4rem;
-  padding: 3px 10px;
+  padding: 3px;
+  width: 100%;
 }
 
 input, textarea {
-  border: 3px solid #eee;
+  border: 1px solid #5bdeff;
   display: block;
   clear: both;
   font-family: Inconsolata;
   font-size: 1rem;
-  max-width: 450px;
+  max-width: 400px;
   min-width: 200px;
   margin-top: 3px;
   padding: 3px;
@@ -125,29 +139,57 @@ textarea {
 }
 
 body.error {
-  background-color: #fda822;
+  background-color: #111;
+  color: #666;
 }
 
 body .error {
-  color: #14513f;
+  color: #eee;
   display: inline-block;
   margin-top: 1px;
   padding: 2px 3px;
+}
+
+body.error a {
+  color: #eee;
+  border-bottom: 1px dashed #ccc;
 }
 
 section {
   margin: 20px 0;
 }
 
-section li {
-  background-color: rgba(255, 255, 255, 0.30);
+.content {
   float: left;
-  margin: 2px 0 2px 5px;
-  padding: 3px 8px;
+  margin-top: 20px;
 }
 
-section li:first-child {
-  margin-left: 0;
+section ul.actions {
+  float: left;
+  margin-bottom: 20px;
+  width: 320px;
+}
+
+section li {
+  background-color: rgba(255, 255, 255, 0.35);
+  border-left: 1px solid #5bdeff;
+  border-top: 1px solid #5bdeff;
+  border-bottom: 1px solid #5bdeff;
+  margin-bottom: 2px;
+  padding: 3px 10px;
+  width: 160px;
+}
+
+section li a {
+  font-size: 1.1rem;
+  line-height: 1.4rem;
+}
+
+#auth {
+  position: fixed;
+  right: 5px;
+  z-index: 2;
+  top: 2px;
 }
 
 .wrapper {

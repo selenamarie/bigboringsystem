@@ -17,10 +17,8 @@ html
 
     .wrapper
       section
-        ul
+        ul.actions
           if session
-            li
-              a(href='/profile') your profile
             li
               a(href='/messages') messages
             li
@@ -30,13 +28,18 @@ html
             li
               a(href='/discover') discover
             li
-              a(href='/logout') log out
+              a(href='/profile') your profile
           else
-            li
-              form(method='post', action='/login')
-                input(type='tel', name='phone', required)
-                if error
-                  p.error= error
-                input(type='hidden', name='crumb', value='#{crumb}')
-                button(type='submit') log in
-      block content
+            block login
+              li
+                form(method='post', action='/login')
+                  input(type='tel', name='phone', required)
+                  if error
+                    p.error= error
+                  input(type='hidden', name='crumb', value='#{crumb}')
+                  button(type='submit') authenticate
+          if session
+            #auth
+              a(href='/logout') log out
+      .content
+        block content

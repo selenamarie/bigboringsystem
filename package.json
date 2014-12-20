@@ -19,7 +19,9 @@
     "nconf": "~0.7.1",
     "level": "~0.18.0",
     "uuid": "~2.0.1",
-    "joi": "~5.0.2"
+    "joi": "~5.0.2",
+    "level-ttl": "~2.1.1",
+    "twilio": "~1.10.0"
   },
   "devDependencies": {
     "nodemon": "~1.2.1"

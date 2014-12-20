@@ -12,6 +12,6 @@ block content
       label(for='websites') websites (comma delimited)
         input(type='text', name='websites', value='#{user && user.websites ? user.websites : ""}')
       label(for='bio') bio
-        textarea(rows='5', cols='50', name='bio')= (user ? user.bio : "")
+        textarea(rows='5', cols='50', name='bio')= (user && user.bio ? user.bio : "")
       input(type='hidden', name='crumb', value='#{crumb}')
       button(type='submit') save

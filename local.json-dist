@@ -2,5 +2,8 @@
     "domain": "localhost",
     "port": 3000,
     "cookie": "secret",
-    "analytics": false
+    "analytics": false,
+    "twilioSID": "",
+    "twilioToken": "",
+    "twilioNumber": "15555555555"
 }
