@@ -37,6 +37,26 @@ var routes = [
   },
   {
     method: 'GET',
+    path: '/messages',
+    handler: services.messages
+  },
+  {
+    method: 'GET',
+    path: '/posts',
+    handler: services.posts
+  },
+  {
+    method: 'GET',
+    path: '/chat',
+    handler: services.chat
+  },
+  {
+    method: 'GET',
+    path: '/discover',
+    handler: services.discover
+  },
+  {
+    method: 'GET',
     path: '/login',
     handler: services.home
   },
