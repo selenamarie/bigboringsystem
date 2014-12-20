@@ -6,11 +6,11 @@ block content
   section
     form(method='post', action='/profile')
       label(for='name') name*
-        input(type='text', name='name', value='#{user ? user.name : ""}', required)
+        input(type='text', name='name', value='#{user && user.name ? user.name : ""}', required)
       if error
         p.error= error
       label(for='websites') websites (comma delimited)
-        input(type='text', name='websites', value='#{user ? user.websites : ""}')
+        input(type='text', name='websites', value='#{user && user.websites ? user.websites : ""}')
       label(for='bio') bio
         textarea(rows='5', cols='50', name='bio')= (user ? user.bio : "")
       input(type='hidden', name='crumb', value='#{crumb}')

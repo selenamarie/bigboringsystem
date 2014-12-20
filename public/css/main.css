@@ -48,14 +48,14 @@ table {
 }
 
 body {
-  background-color: #f9f9f9;
+  background-color: #f1f1f1;
   font-family: Inconsolata;
   padding: 20px;
 }
 
 .back {
-  background-color: rgba(255, 255, 255, 0.35);
-  border-right: 25px solid rgba(255, 255, 255, 0.75);
+  background-color: rgba(34, 240, 253, 0.15);
+  border-right: 25px solid rgba(34, 240, 253, 0.25);
   bottom: 0;
   left: 200px;
   position: fixed;
@@ -65,13 +65,12 @@ body {
 }
 
 .error .back {
-  background-color: rgba(34, 240, 253, 0.15);
-  border-right: 25px solid rgba(34, 240, 253, 0.25);
+  background-color: rgba(34, 240, 253, 0.20);
+  border-right: 25px solid rgba(34, 240, 253, 0.28);
 }
 
 a {
-  border-bottom: 1px solid #eee;
-  color: #888;
+  color: #216d99;
   text-decoration: none;
 }
 
@@ -125,9 +124,12 @@ textarea {
   resize: none;
 }
 
-.error {
-  background-color: #f7135e;
-  color: #fff;
+body.error {
+  background-color: #fda822;
+}
+
+body .error {
+  color: #14513f;
   display: inline-block;
   margin-top: 1px;
   padding: 2px 3px;
@@ -138,17 +140,14 @@ section {
 }
 
 section li {
+  background-color: rgba(255, 255, 255, 0.30);
   float: left;
-  margin-right: 20px;
+  margin: 2px 0 2px 5px;
+  padding: 3px 8px;
 }
 
-section li:after {
-  content: '.';
-  margin-left: 20px;
-}
-
-section li:last-child:after {
-  content: '';
+section li:first-child {
+  margin-left: 0;
 }
 
 .wrapper {
