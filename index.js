@@ -4,10 +4,14 @@ var Hapi = require('hapi');
 var nconf = require('nconf');
 var Boom = require('boom');
 var Joi = require('joi');
+var SocketIO = require('socket.io');
 
 var services = require('./lib/services');
 var profile = require('./lib/profile');
 var auth = require('./lib/auth');
+
+var chatUsers = {};
+var chatUserCount = 0;
 
 nconf.argv().env().file({ file: 'local.json' });
 
@@ -34,6 +38,16 @@ var routes = [
     method: 'GET',
     path: '/',
     handler: services.home
+  },
+  {
+    method: 'GET',
+    path: '/user',
+    handler: function (request, reply) {
+      reply({
+        name: request.session.get('name'),
+        uid: request.session.get('uid')
+      });
+    }
   },
   {
     method: 'GET',
@@ -137,6 +151,18 @@ server.ext('onPreResponse', function (request, reply) {
   var response = request.response;
 
   if (!response.isBoom) {
+    if (['/profile', '/messages', '/chat', '/posts', '/discover'].indexOf(request.path) > -1) {
+      if (!request.session.get('uid')) {
+        return reply.redirect('/');
+      }
+    }
+
+    if (['/', '/messages', '/chat', '/posts', '/discover'].indexOf(request.path) > -1) {
+      if (request.session.get('uid') && !request.session.get('name')) {
+        return reply.redirect('/profile');
+      }
+    }
+
     return reply.continue();
   }
 
@@ -184,4 +210,37 @@ server.register({
   options: options
 }, function (err) { });
 
-server.start();
+server.start(function () {
+  var io = SocketIO.listen(server.listener);
+
+  io.on('connection', function (socket) {
+    console.log('connected to local socket');
+
+    socket.on('user', function (user) {
+      console.log('user connected ', user)
+      socket.user = user.name;
+      socket.uid = user.uid;
+      chatUsers[user] = user;
+      chatUserCount ++;
+    });
+
+    socket.on('disconnect', function () {
+      delete chatUsers[socket.user];
+      chatUserCount --;
+
+      if (chatUserCount < 0) {
+        chatUserCount = 0;
+      }
+    });
+
+    socket.on('message', function (data) {
+      if (socket.user && data.trim().length > 0) {
+        io.emit('message', {
+          name: socket.user,
+          uid: socket.uid,
+          message: data
+        });
+      }
+    });
+  });
+});
