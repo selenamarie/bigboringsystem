@@ -22,25 +22,25 @@ html
             li
               a(href='/posts') posts
             li
-              a(href='/chat') public chat
+              a(href='/chat') chat
             li
               a(href='/discover') discover
             li
-              a(href='/profile') your profile
-          else
-            block login
-              li
-                form(method='post', action='/login')
-                  input(type='tel', name='phone', required)
-                  if error
-                    p.error= error
-                  input(type='hidden', name='crumb', value='#{crumb}')
-                  button(type='submit') authenticate
+              a(href='/profile') profile
           if session
             #auth
               a(href='/logout') log out
       .content
         block content
+        block login
+          if !session
+            section
+              form(method='post', action='/login')
+                input(type='tel', name='phone', required)
+                if error
+                  p.error= error
+                input(type='hidden', name='crumb', value='#{crumb}')
+                button(type='submit') authenticate
 
     block scripts
       script(type='text/javascript', src='https://cdn.socket.io/socket.io-1.2.1.js')

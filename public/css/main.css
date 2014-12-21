@@ -96,7 +96,7 @@ h1, h2 {
 }
 
 h2 {
-  border-top: 1px solid #5bdeff;
+  border-top: 1px dashed #fff;
   margin-top: 40px;
   padding-top: 10px;
 }
@@ -293,6 +293,11 @@ section li a {
 
 .wrapper {
   font-size: 1rem;
+  min-width: 280px;
+}
+
+#posts {
+  width: 100%;
 }
 
 article {
@@ -309,4 +314,87 @@ article time {
 
 article .posted {
   margin: 10px 0;
+}
+
+@media only screen and (max-width: 719px) {
+  section {
+    clear: both;
+    width: 100%;
+  }
+
+  section ul.actions {
+    width: 100%;
+    position: absolute;
+    left: -19px;
+    top: -15px;
+  }
+
+  section ul.actions li {
+    background-color: rgba(255, 255, 255, 0.8);
+    float: left;
+    width: 65px;
+    text-indent: 5px;
+    padding: 0 2px;
+    text-align: center;
+  }
+
+  section ul.actions li a {
+    font-size: 0.9rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .back {
+    opacity: 0.3;
+  }
+
+  #users {
+    background-color: #f00;
+    bottom: auto;
+    position: relative;
+    left: -15px;
+    top: -5px;
+    height: 50px;
+    width: 100%;
+    overflow-y: scroll;
+  }
+
+  #users li {
+    background-color: rgba(255, 255, 255, 0.8);
+    clear: none;
+    float: left;
+    border-left: 1px solid #5bdeff;
+    width: 20%;
+    height: 22px;
+  }
+
+  #users li a {
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+  }
+
+  #chat {
+    left: 5px;
+    top: 195px;
+  }
+
+  #chat-form {
+    left: 5px;
+  }
+
+  #chat-form input {
+    width: 75%;
+  }
+
+  .content {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  input, textarea {
+    width: 95%;
+  }
 }

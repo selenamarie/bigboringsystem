@@ -1,6 +1,9 @@
 extend layout
 
 block content
-  h1 dashboard
+  if session
+    h1 dashboard
 
-  p this should work on lynx
+    p this should work on lynx
+  else
+    h1 enter your phone number to sign in
