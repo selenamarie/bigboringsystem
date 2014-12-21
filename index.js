@@ -69,7 +69,7 @@ var routes = [
   {
     method: 'GET',
     path: '/discover',
-    handler: services.discover
+    handler: posts.getAllRecent
   },
   {
     method: 'GET',

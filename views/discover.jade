@@ -2,3 +2,12 @@ extend layout
 
 block content
   h1 discover
+
+  #posts
+    for post in posts
+      article
+        time= post.value.created
+        p.posted
+          | posted by&#xa0;
+          a(href='/user/#{post.value.uid}')= post.value.name
+        pre!= post.value.content

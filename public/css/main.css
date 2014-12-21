@@ -306,3 +306,7 @@ article time {
   display: block;
   margin-bottom: 15px;
 }
+
+article .posted {
+  margin: 10px 0;
+}
