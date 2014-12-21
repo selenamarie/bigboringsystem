@@ -159,12 +159,21 @@ input, textarea {
 }
 
 .actions input {
-  min-width: 130px;
-  max-width: 130px;
+  min-width: 112px;
+  max-width: 112px;
 }
 
 .actions button {
-  width: 140px;
+  font-size: 1.1rem;
+  width: 120px;
+}
+
+.websites {
+  margin: 10px 0;
+}
+
+.websites li a {
+  line-height: 1.4rem;
 }
 
 textarea {
@@ -233,8 +242,8 @@ section li a {
 
 #chat p {
   color: #333;
-  font-size: 1.1rem;
-  line-height: 1.3rem;
+  font-size: 1rem;
+  line-height: 1.2rem;
   margin-bottom: 3px;
 }
 

@@ -28,6 +28,7 @@ document.getElementById('chat-form').onsubmit = function (event) {
 socket.on('message', function (data) {
   var chat = document.getElementById('chat');
   var p = document.createElement('p');
-  p.textContent = data.name + ': ' + data.message;
+  var user = '<a href="/user/' + data.uid + '" target="_blank">' + data.name + '</a>';
+  p.innerHTML = user + ': ' + data.message;
   chat.appendChild(p);
 });

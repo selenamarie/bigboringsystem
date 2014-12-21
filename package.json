@@ -22,7 +22,8 @@
     "joi": "~5.0.2",
     "level-ttl": "~2.1.1",
     "twilio": "~1.10.0",
-    "socket.io": "~1.2.1"
+    "socket.io": "~1.2.1",
+    "twitter-text": "~1.10.0"
   },
   "devDependencies": {
     "nodemon": "~1.2.1"

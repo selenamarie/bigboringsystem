@@ -1,0 +1,13 @@
+extend layout
+
+block content
+  h1= user
+
+  h2 Websites
+  ul.websites
+    for url in websites
+      li
+        a(href='#{url}', target='_blank')= url
+
+  h2 Bio
+  p= bio

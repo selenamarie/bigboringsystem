@@ -5,6 +5,7 @@ var nconf = require('nconf');
 var Boom = require('boom');
 var Joi = require('joi');
 var SocketIO = require('socket.io');
+var twitter = require('twitter-text');
 
 var services = require('./lib/services');
 var profile = require('./lib/profile');
@@ -111,6 +112,11 @@ var routes = [
     method: 'GET',
     path: '/logout',
     handler: auth.logout
+  },
+  {
+    method: 'GET',
+    path: '/user/{uid}',
+    handler: services.user
   },
   {
     method: 'GET',
@@ -238,7 +244,7 @@ server.start(function () {
         io.emit('message', {
           name: socket.user,
           uid: socket.uid,
-          message: data
+          message: twitter.autoLink(twitter.htmlEscape(data))
         });
       }
     });
