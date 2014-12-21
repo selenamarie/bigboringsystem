@@ -91,11 +91,14 @@ header {
 
 h1, h2 {
   font-size: 1.9rem;
-}
-
-h1 {
   color: #5bdeff;
   margin-bottom: 20px;
+}
+
+h2 {
+  border-top: 1px solid #5bdeff;
+  margin-top: 40px;
+  padding-top: 10px;
 }
 
 .error h2 {

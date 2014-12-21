@@ -23,3 +23,8 @@ block content
         input(type='text', name='pin')
     input(type='hidden', name='crumb', value='#{crumb}')
     button(type='submit') add
+
+  h2 secondary numbers
+
+  for number in user.secondary
+    p= user.secondary[number]
