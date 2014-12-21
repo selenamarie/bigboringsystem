@@ -12,3 +12,7 @@ block content
     button(type='submit') save
 
   #posts
+    for post in posts
+      article
+        time= post.value.created
+        pre!= post.value.content

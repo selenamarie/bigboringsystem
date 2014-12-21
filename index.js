@@ -10,6 +10,7 @@ var twitter = require('twitter-text');
 var services = require('./lib/services');
 var profile = require('./lib/profile');
 var auth = require('./lib/auth');
+var posts = require('./lib/posts');
 
 var chatUsers = {};
 var chatUserCount = 0;
@@ -58,7 +59,7 @@ var routes = [
   {
     method: 'GET',
     path: '/posts',
-    handler: services.posts
+    handler: posts.getRecent
   },
   {
     method: 'GET',
@@ -158,6 +159,11 @@ var routes = [
         }
       }
     }
+  },
+  {
+    method: 'POST',
+    path: '/post',
+    handler: posts.add
   }
 ];
 
