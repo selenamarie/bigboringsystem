@@ -87,7 +87,7 @@ var routes = [
     config: {
       validate: {
         payload: {
-          pin: Joi.number().integer().min(1111).max(9999)
+          pin: Joi.number().integer()
         }
       }
     }
@@ -133,6 +133,28 @@ var routes = [
           name: Joi.string().min(2).max(30),
           websites: Joi.string().allow(''),
           bio: Joi.string().allow('')
+        }
+      }
+    }
+  },
+  {
+    method: 'GET',
+    path: '/add_phone',
+    handler: services.profile
+  },
+  {
+    method: 'POST',
+    path: '/add_phone',
+    handler: profile.addPhone,
+    config: {
+      validate: {
+        payload: {
+          phone: Joi.string().regex(/^[0-9]+$/).min(10).max(15).options({
+            language: {
+              label: 'phone number'
+            }
+          }),
+          pin: Joi.number().integer().optional()
         }
       }
     }
@@ -226,12 +248,10 @@ server.start(function () {
       console.log('user connected ', user)
       socket.user = user.name;
       socket.uid = user.uid;
-      chatUsers[user] = user;
+      chatUsers[user.uid] = user.name;
       chatUserCount ++;
 
-      io.emit('user_list', {
-        users: chatUsers
-      });
+      io.emit('users', chatUsers);
     });
 
     socket.on('disconnect', function () {
@@ -244,6 +264,7 @@ server.start(function () {
     });
 
     socket.on('message', function (data) {
+      console.log(data)
       if (socket.user && data.trim().length > 0) {
         io.emit('message', {
           name: socket.user,

@@ -135,6 +135,10 @@ input, textarea {
   width: 100%;
 }
 
+form {
+  max-width: 408px;
+}
+
 #chat-form {
   bottom: 2px;
   position: fixed;
@@ -226,6 +230,23 @@ section li {
 section li a {
   font-size: 1.1rem;
   line-height: 1.4rem;
+}
+
+#users {
+  border-top: 1px solid #5bdeff;
+  bottom: 35px;
+  left: 160px;
+  padding: 5px;
+  position: fixed;
+  top: 72px;
+  width: 111px;
+  overflow: auto;
+}
+
+#users li {
+  line-height: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 #chat {

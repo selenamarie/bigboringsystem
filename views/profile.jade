@@ -4,17 +4,22 @@ block content
   h1 profile
 
   form(method='post', action='/profile')
-    label(for='name') name*
-      input(type='text', name='name', value='#{user && user.name ? user.name : ""}', required)
     if error
       p.error= error
+    label(for='name') name*
+      input(type='text', name='name', value='#{user && user.name ? user.name : ""}', required)
     label(for='websites') websites (comma delimited)
       input(type='text', name='websites', value='#{user && user.websites ? user.websites : ""}')
     label(for='bio') bio
       textarea(rows='5', cols='50', name='bio')= (user && user.bio ? user.bio : "")
-    label(for='multiple_phones') merge with another phone number on this system
-      input(type='tel', name='multiple_phones', placeholder='primary phone number')
-      input(type='text', name='api_key', placeholder='api key for primary phone')
-    label(for='api_key') api key for this number
     input(type='hidden', name='crumb', value='#{crumb}')
     button(type='submit') save
+
+  form(method='post', action='/add_phone')
+    label(for='phone') add a second phone number to this account
+      input(type='tel', name='phone', value='#{phone}')
+    if phone
+      label(for='pin') enter the PIN sent to your secondary phone for validation
+        input(type='text', name='pin')
+    input(type='hidden', name='crumb', value='#{crumb}')
+    button(type='submit') add

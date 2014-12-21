@@ -28,7 +28,17 @@ document.getElementById('chat-form').onsubmit = function (event) {
 socket.on('message', function (data) {
   var chat = document.getElementById('chat');
   var p = document.createElement('p');
-  var user = '<a href="/user/' + data.uid + '" target="_blank">' + data.name + '</a>';
-  p.innerHTML = user + ': ' + data.message;
+  p.innerHTML = data.name + ': ' + data.message;
   chat.appendChild(p);
+});
+
+socket.on('users', function (data) {
+  var userList = document.getElementById('users');
+  userList.innerHTML = '';
+  for (var user in data) {
+    var li = document.createElement('li');
+    var userItem = '<a href="/user/' + user + '" target="_blank">' + data[user] + '</a>';
+    li.innerHTML = userItem;
+    userList.appendChild(li);
+  }
 });
