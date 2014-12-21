@@ -228,6 +228,10 @@ server.start(function () {
       socket.uid = user.uid;
       chatUsers[user] = user;
       chatUserCount ++;
+
+      io.emit('user_list', {
+        users: chatUsers
+      });
     });
 
     socket.on('disconnect', function () {

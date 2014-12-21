@@ -204,7 +204,7 @@ section {
 .content {
   float: left;
   margin-left: 130px;
-  margin-top: 20px;
+  margin-top: -20px;
 }
 
 section ul.actions {
@@ -232,7 +232,7 @@ section li a {
   position: fixed;
   padding: 5px;
   bottom: 35px;
-  top: 110px;
+  top: 72px;
   overflow: hidden;
   overflow-y: scroll;
   border: 1px solid #5bdeff;

@@ -12,5 +12,9 @@ block content
       input(type='text', name='websites', value='#{user && user.websites ? user.websites : ""}')
     label(for='bio') bio
       textarea(rows='5', cols='50', name='bio')= (user && user.bio ? user.bio : "")
+    label(for='multiple_phones') merge with another phone number on this system
+      input(type='tel', name='multiple_phones', placeholder='primary phone number')
+      input(type='text', name='api_key', placeholder='api key for primary phone')
+    label(for='api_key') api key for this number
     input(type='hidden', name='crumb', value='#{crumb}')
     button(type='submit') save

@@ -3,4 +3,12 @@ extend layout
 block content
   h1 posts
 
+  form(method='post', action='/post')
+    label(for='content') content
+      textarea(rows='10', cols='90', name='content')
+    if error
+      p.error= error
+    input(type='hidden', name='crumb', value='#{crumb}')
+    button(type='submit') save
+
   #posts
