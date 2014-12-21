@@ -3,11 +3,18 @@ extend layout
 block content
   h1= user
 
-  h2 Websites
+  h2 websites
   ul.websites
     for url in websites
       li
         a(href='#{url}', target='_blank')= url
 
-  h2 Bio
+  h2 bio
   p= bio
+
+  h2 recent posts
+  #posts
+    for post in posts
+      article
+        time= post.value.created
+        pre!= post.value.content
