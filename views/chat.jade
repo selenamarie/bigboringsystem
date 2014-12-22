@@ -10,3 +10,7 @@ block content
   form(method='post', id='chat-form')
     input(type='text', id='message', name='message', autocomplete='off')
     button(type='submit', id='send-message') Send
+
+block scripts
+  script(type='text/javascript', src='https://cdn.socket.io/socket.io-1.2.1.js')
+  script(type='text/javascript', src='/js/main.js')
