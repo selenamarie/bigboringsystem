@@ -267,6 +267,8 @@ server.start(function () {
       if (chatUserCount < 0) {
         chatUserCount = 0;
       }
+
+      io.emit('users', chatUsers);
     });
 
     socket.on('message', function (data) {
