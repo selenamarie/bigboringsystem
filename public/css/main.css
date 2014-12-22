@@ -71,7 +71,8 @@ body {
 }
 
 a {
-  color: #216d99;
+  background-color: #acfff2;
+  color: #111;
   text-decoration: none;
 }
 
@@ -210,9 +211,11 @@ body.error {
 }
 
 body .error {
-  color: #111;
+  background-color: #ff3d3d;
+  color: #ffdcdc;
+  font-size: 1.3rem;
   display: inline-block;
-  margin-top: 1px;
+  margin-top: 4px;
   padding: 2px 3px;
 }
 
