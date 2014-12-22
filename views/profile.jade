@@ -3,6 +3,8 @@ extend layout
 block content
   h1 profile
 
+  p Your UID: #{user.uid}
+
   form(method='post', action='/profile')
     if error
       p.error= error

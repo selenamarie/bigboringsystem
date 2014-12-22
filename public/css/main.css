@@ -90,15 +90,29 @@ header {
 }
 
 h1, h2 {
-  font-size: 1.9rem;
   color: #5bdeff;
   margin-bottom: 20px;
 }
 
+h1 {
+  font-size: 1.9rem;
+}
+
 h2 {
+  font-size: 1.6rem;
   border-top: 1px dashed #fff;
   margin-top: 40px;
   padding-top: 10px;
+}
+
+ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  margin-left: 20px;
+}
+
+ol li {
+  margin-bottom: 10px;
 }
 
 .error h2 {

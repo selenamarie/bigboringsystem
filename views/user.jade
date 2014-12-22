@@ -3,6 +3,9 @@ extend layout
 block content
   h1= user
 
+  if op
+    p This user is an operator
+
   h2 websites
   ul.websites
     for url in websites

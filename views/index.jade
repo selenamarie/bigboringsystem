@@ -7,5 +7,18 @@ block content
     article
       p Welcome to the Big Boring System Inc.
       p Feel free to post something you want to share with everyone, chat with the community or browser other posts.
+
+      h2 Your operators for this system
+      for op in ops
+        p
+          a(href='/user/#{op.uid}')= op.name
+
+      h2 House rules
+
+      ol
+        li Abusive/annoying/obnoxious behavior will risk in a ban on your phone number.
+        li This is a community for people to share interests and have light chat. If you don't like it, go set up your&#xa0;
+          a(href='https://github.com/bigboringsystem/bigboringsystem') own
+          | .
   else
     h1 enter your phone number to sign in
