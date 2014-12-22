@@ -7,7 +7,6 @@ var setUser = function () {
     if (httpRequest.status === 200) {
       console.log(httpRequest.responseText);
       socket.emit('user', JSON.parse(httpRequest.responseText));
-      user = JSON.parse(httpRequest.responseText);
     }
   }
 };
@@ -33,8 +32,10 @@ socket.on('message', function (data) {
 });
 
 socket.on('users', function (data) {
+  console.log('got here')
   var userList = document.getElementById('users');
   userList.innerHTML = '';
+  console.log(data)
   for (var user in data) {
     var li = document.createElement('li');
     var userItem = '<a href="/user/' + user + '">' + data[user] + '</a>';

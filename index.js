@@ -261,14 +261,15 @@ server.start(function () {
     });
 
     socket.on('disconnect', function () {
-      delete chatUsers[socket.user];
+      console.log('disconnected')
+      delete chatUsers[socket.uid];
       chatUserCount --;
 
       if (chatUserCount < 0) {
         chatUserCount = 0;
       }
 
-      io.emit('users', chatUsers);
+      socket.broadcast.emit('users', chatUsers);
     });
 
     socket.on('message', function (data) {
