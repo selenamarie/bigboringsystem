@@ -339,7 +339,7 @@ article .posted {
 }
 
 pre, article p, li {
-  white-space: pre-line;
+  white-space: pre-wrap;
   line-height: 1.3rem;
 }
 
