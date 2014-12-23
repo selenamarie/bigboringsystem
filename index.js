@@ -179,6 +179,21 @@ var routes = [
     method: 'POST',
     path: '/post',
     handler: posts.add
+  },
+  {
+    method: 'GET',
+    path: '/ban',
+    handler: profile.ban
+  },
+  {
+    method: 'POST',
+    path: '/ban',
+    handler: profile.ban
+  },
+  {
+    method: 'POST',
+    path: '/unban',
+    handler: profile.unban
   }
 ];
 
@@ -206,9 +221,15 @@ server.ext('onPreResponse', function (request, reply) {
       }
     }
 
-    if (['/', '/messages', '/chat', '/posts', '/discover'].indexOf(request.path) > -1) {
+    if (['/', '/messages', '/chat', '/posts', '/discover', '/links', '/users', '/ban', '/unban'].indexOf(request.path) > -1) {
       if (request.session.get('uid') && !request.session.get('name')) {
         return reply.redirect('/profile');
+      }
+    }
+
+    if (['/ban', '/unban'].indexOf(request.path) > -1) {
+      if (!!request.session.get('op') === false) {
+        return reply.redirect('/');
       }
     }
 

@@ -3,8 +3,25 @@ extend layout
 block content
   h1= user
 
-  if op
+  if userOp
     p This user is an operator
+
+  if op && !userOp && !banned
+    form(method='post', action='/ban')
+      input(type='hidden', name='phone', value='#{phone}')
+      input(type='hidden', name='uid', value='#{uid}')
+      input(type='hidden', name='crumb', value='#{crumb}')
+      button.ban(type='submit') ban this account
+
+  if banned
+    p This account is currently banned.
+
+    if op
+      form(method='post', action='/unban')
+        input(type='hidden', name='phone', value='#{phone}')
+        input(type='hidden', name='uid', value='#{uid}')
+        input(type='hidden', name='crumb', value='#{crumb}')
+        button.unban(type='submit') unban this account
 
   h2 websites
   ul.websites

@@ -355,6 +355,17 @@ pre, article p {
   content: ' *';
 }
 
+.ban, .unban {
+  background-color: #f00;
+  color: #fff;
+  font-size: 1.4rem;
+  padding: 0 3px;
+}
+
+.unban {
+  background-color: #333;
+}
+
 @media only screen and (max-width: 719px) {
   section {
     clear: both;
