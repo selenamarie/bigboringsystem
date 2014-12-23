@@ -412,6 +412,11 @@ pre, article p, li {
     opacity: 0.3;
   }
 
+  pre, article p, li {
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+  }
+
   #users {
     bottom: auto;
     position: relative;
