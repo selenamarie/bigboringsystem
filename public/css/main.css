@@ -338,7 +338,7 @@ article .posted {
   margin: 10px 0;
 }
 
-pre {
+pre, article p {
   white-space: normal;
   line-height: 1.3rem;
 }
