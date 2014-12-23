@@ -53,6 +53,16 @@ var routes = [
   },
   {
     method: 'GET',
+    path: '/links',
+    handler: services.links
+  },
+  {
+    method: 'GET',
+    path: '/users',
+    handler: profile.getAllUsers
+  },
+  {
+    method: 'GET',
     path: '/messages',
     handler: services.messages
   },
@@ -190,7 +200,7 @@ server.ext('onPreResponse', function (request, reply) {
   var response = request.response;
 
   if (!response.isBoom) {
-    if (['/profile', '/messages', '/chat', '/posts', '/discover'].indexOf(request.path) > -1) {
+    if (['/profile', '/messages', '/chat', '/posts', '/discover', '/links'].indexOf(request.path) > -1) {
       if (!request.session.get('uid')) {
         return reply.redirect('/');
       }
@@ -278,7 +288,6 @@ server.start(function () {
     });
 
     socket.on('message', function (data) {
-      console.log(data)
       if (socket.user && data.trim().length > 0) {
         io.emit('message', {
           name: socket.user,
