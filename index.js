@@ -200,7 +200,7 @@ server.ext('onPreResponse', function (request, reply) {
   var response = request.response;
 
   if (!response.isBoom) {
-    if (['/profile', '/messages', '/chat', '/posts', '/discover', '/links'].indexOf(request.path) > -1) {
+    if (['/profile', '/messages', '/chat', '/posts', '/discover', '/links', '/users'].indexOf(request.path) > -1) {
       if (!request.session.get('uid')) {
         return reply.redirect('/');
       }
