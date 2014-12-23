@@ -14,5 +14,6 @@ block content
   #posts
     for post in posts
       article
-        time= post.value.created
+        time
+          a(href='/post/#{post.key}')= post.value.created
         pre!= post.value.content

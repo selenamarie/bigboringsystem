@@ -1,0 +1,8 @@
+extend layout
+
+block content
+  h1
+    a(href='/user/#{post.uid}')= post.name
+  article
+    time= post.created
+    pre!= post.content

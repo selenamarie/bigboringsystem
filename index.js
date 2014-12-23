@@ -161,6 +161,11 @@ var routes = [
     }
   },
   {
+    method: 'GET',
+    path: '/post/{key}',
+    handler: posts.get
+  },
+  {
     method: 'POST',
     path: '/post',
     handler: posts.add
