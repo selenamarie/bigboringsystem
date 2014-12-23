@@ -34,12 +34,11 @@ html
         block content
         block login
           if !session
-            section
-              form(method='post', action='/login')
-                input(type='tel', name='phone', required)
-                if error
-                  p.error= error
-                input(type='hidden', name='crumb', value='#{crumb}')
-                button(type='submit') authenticate
+            form(method='post', action='/login')
+              input(type='tel', name='phone', required)
+              if error
+                p.error= error
+              input(type='hidden', name='crumb', value='#{crumb}')
+              button(type='submit') authenticate
 
     block scripts

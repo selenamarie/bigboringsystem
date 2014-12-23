@@ -338,7 +338,7 @@ article .posted {
   margin: 10px 0;
 }
 
-pre, article p {
+pre, article p, li {
   white-space: pre-line;
   line-height: 1.3rem;
 }

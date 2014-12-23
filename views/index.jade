@@ -1,5 +1,14 @@
 extend layout
 
+mixin rules
+  h2 House rules
+
+  ol
+    li Abusive/annoying/obnoxious behavior will risk in a ban on your phone number.
+    li This is a community for people to share interests and have light chat. If you don't like it, go set up your&#xa0;
+      a(href='https://github.com/bigboringsystem/bigboringsystem') own
+      | .
+
 block content
   if session
     h1 dashboard
@@ -13,12 +22,14 @@ block content
         p
           a(href='/user/#{op.uid}')= op.name
 
-      h2 House rules
-
-      ol
-        li Abusive/annoying/obnoxious behavior will risk in a ban on your phone number.
-        li This is a community for people to share interests and have light chat. If you don't like it, go set up your&#xa0;
-          a(href='https://github.com/bigboringsystem/bigboringsystem') own
-          | .
+      +rules
   else
-    h1 enter your phone number to sign in
+    h1 big boring system
+
+    article
+      p Welcome to the Big Boring System Inc.
+      p This is a text-only online community. Feel free to browse&#xa0;
+        a(href='/discover') recent posts
+        | .
+      +rules
+    h2 enter your phone number to sign in
