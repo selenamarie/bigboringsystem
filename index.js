@@ -194,6 +194,11 @@ var routes = [
     method: 'POST',
     path: '/unban',
     handler: profile.unban
+  },
+  {
+    method: 'POST',
+    path: '/post/{key}',
+    handler: posts.del
   }
 ];
 

@@ -1,6 +1,11 @@
 extend layout
 
 block content
+  if session && session === post.uid
+    form(method='POST', action='/post/#{id}', class='delete')
+      input(type='hidden', name='uid', value='#{post.uid}')
+      input(type='hidden', name='crumb', value='#{crumb}')
+      button(type='submit') x delete
   h1
     a(href='/user/#{post.uid}')= post.name
   article
