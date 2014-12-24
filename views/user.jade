@@ -37,5 +37,8 @@ block content
         time
           a(href='/post/#{post.key}')= post.value.created
         pre!= post.value.content
+    .pagination
+      if next
+        a(href='/user/#{uid}?last=#{lastKey}') older
 
 block login

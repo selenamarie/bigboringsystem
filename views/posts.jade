@@ -17,6 +17,9 @@ block content
         time
           a(href='/post/#{post.key}')= post.value.created
         pre!= post.value.content
+    .pagination
+      if next
+        a(href='/posts?last=#{lastKey}') older
 
 block scripts
   script(type='text/javascript', src='/js/post.js')
