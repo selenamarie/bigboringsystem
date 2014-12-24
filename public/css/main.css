@@ -134,6 +134,7 @@ button {
   background-color: #5bdeff;
   border: 0;
   color: #fff;
+  cursor: pointer;
   font-family: Inconsolata;
   font-size: 1.4rem;
   padding: 3px;
