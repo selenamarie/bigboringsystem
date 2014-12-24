@@ -14,9 +14,13 @@ var setUser = function () {
 
 var httpRequest = new XMLHttpRequest();
 
-httpRequest.onreadystatechange = setUser;
-httpRequest.open('GET', '/user');
-httpRequest.send();
+getUserData();
+
+function getUserData() {
+  httpRequest.onreadystatechange = setUser;
+  httpRequest.open('GET', '/user');
+  httpRequest.send();
+}
 
 document.getElementById('chat-form').onsubmit = function (event) {
   event.preventDefault();
@@ -30,9 +34,10 @@ socket.on('message', function (data) {
   var p = document.createElement('p');
   p.innerHTML = data.name + ': ' + data.message;
   chat.appendChild(p);
+  p.scrollIntoView();
   count ++;
 
-  if (count > 50) {
+  if (count > 100) {
     chat.removeChild(chat.getElementsByTagName('p')[0]);
     count --;
   }
@@ -48,4 +53,8 @@ socket.on('users', function (data) {
     li.innerHTML = userItem;
     userList.appendChild(li);
   }
+});
+
+socket.on('connect', function () {
+  getUserData();
 });
