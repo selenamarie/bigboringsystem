@@ -1,6 +1,7 @@
 'use strict';
 
 var socket = io();
+var count = 0;
 
 var setUser = function () {
   if (httpRequest.readyState === 4) {
@@ -29,6 +30,12 @@ socket.on('message', function (data) {
   var p = document.createElement('p');
   p.innerHTML = data.name + ': ' + data.message;
   chat.appendChild(p);
+  count ++;
+
+  if (count > 50) {
+    chat.removeChild(chat.getElementsByTagName('p')[0]);
+    count --;
+  }
 });
 
 socket.on('users', function (data) {
