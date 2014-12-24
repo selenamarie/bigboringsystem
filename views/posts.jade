@@ -17,3 +17,6 @@ block content
         time
           a(href='/post/#{post.key}')= post.value.created
         pre!= post.value.content
+
+block scripts
+  script(type='text/javascript', src='/js/post.js')
