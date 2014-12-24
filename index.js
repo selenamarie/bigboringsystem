@@ -5,12 +5,12 @@ var nconf = require('nconf');
 var Boom = require('boom');
 var Joi = require('joi');
 var SocketIO = require('socket.io');
-var twitter = require('twitter-text');
 
 var services = require('./lib/services');
 var profile = require('./lib/profile');
 var auth = require('./lib/auth');
 var posts = require('./lib/posts');
+var utils = require('./lib/utils');
 
 var chatUsers = {};
 var chatUserCount = 0;
@@ -315,10 +315,14 @@ server.start(function () {
 
     socket.on('message', function (data) {
       if (socket.user && data.trim().length > 0) {
+        console.log(utils.autoLink(data))
         io.emit('message', {
           name: socket.user,
           uid: socket.uid,
-          message: twitter.autoLink(twitter.htmlEscape(data))
+          message: utils.autoLink(data, {
+            htmlEscapeNonEntities: true,
+            targetBlank: true
+          })
         });
       }
     });

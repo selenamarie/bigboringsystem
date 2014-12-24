@@ -25,9 +25,7 @@ block content
 
   h2 websites
   ul.websites
-    for url in websites
-      li
-        a(href='#{url}', target='_blank')= url
+    li!= websites
 
   h2 bio
   p= bio
