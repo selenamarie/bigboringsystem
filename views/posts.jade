@@ -18,7 +18,7 @@ block content
           a(href='/post/#{post.key}')= post.value.created
         pre!= post.value.content
     .pagination
-      if next
+      if next && lastKey
         a(href='/posts?last=#{lastKey}') older
 
 block scripts
