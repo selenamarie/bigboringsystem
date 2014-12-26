@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
   var socket = io();
   var count = 0;
