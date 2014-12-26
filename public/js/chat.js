@@ -2,6 +2,9 @@
 
 var socket = io();
 var count = 0;
+var getChatSessionStorage = window.sessionStorage.getItem('chat');
+var a = [];
+var chatEl = document.getElementById('chat');
 
 var setUser = function () {
   if (httpRequest.readyState === 4) {
@@ -12,9 +15,30 @@ var setUser = function () {
   }
 };
 
+var setChatMessage = function(data){
+  var p = document.createElement('p');
+  p.innerHTML = data.name + ': ' + data.message;
+  chatEl.appendChild(p);
+  p.scrollIntoView();
+  count ++;
+
+  if (count > 100) {
+    chatEl.removeChild(chatEl.getElementsByTagName('p')[0]);
+    count --;
+  }
+};
+
 var httpRequest = new XMLHttpRequest();
 
 getUserData();
+
+if (getChatSessionStorage){
+  JSON.parse(getChatSessionStorage).forEach(function(data){
+    setChatMessage(data);
+  });
+}else {
+  window.sessionStorage.setItem('chat', JSON.stringify(a));
+}
 
 function getUserData() {
   httpRequest.onreadystatechange = setUser;
@@ -30,17 +54,9 @@ document.getElementById('chat-form').onsubmit = function (event) {
 };
 
 socket.on('message', function (data) {
-  var chat = document.getElementById('chat');
-  var p = document.createElement('p');
-  p.innerHTML = data.name + ': ' + data.message;
-  chat.appendChild(p);
-  p.scrollIntoView();
-  count ++;
-
-  if (count > 100) {
-    chat.removeChild(chat.getElementsByTagName('p')[0]);
-    count --;
-  }
+  setChatMessage(data);
+  a.push(data);
+  window.sessionStorage.setItem('chat', JSON.stringify(a));
 });
 
 socket.on('users', function (data) {
