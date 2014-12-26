@@ -35,6 +35,7 @@ html
         block login
           if !session
             form(method='post', action='/login')
+              p Enter your number without spaces or dashes
               input(type='tel', name='phone', required)
               if error
                 p.error= error
