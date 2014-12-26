@@ -199,6 +199,11 @@ var routes = [
     method: 'POST',
     path: '/post/{key}',
     handler: posts.del
+  },
+  {
+    method: 'GET',
+    path: '/fixnames',
+    handler: utils.fixNames
   }
 ];
 
@@ -232,7 +237,7 @@ server.ext('onPreResponse', function (request, reply) {
       }
     }
 
-    if (['/ban', '/unban'].indexOf(request.path) > -1) {
+    if (['/ban', '/unban', '/fixnames'].indexOf(request.path) > -1) {
       if (!!request.session.get('op') === false) {
         return reply.redirect('/');
       }
