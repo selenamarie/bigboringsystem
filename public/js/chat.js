@@ -3,7 +3,7 @@
 var socket = io();
 var count = 0;
 var getChatSessionStorage = window.sessionStorage.getItem('chat');
-var a = [];
+var chatArr = [];
 var chatEl = document.getElementById('chat');
 
 var setUser = function () {
@@ -15,7 +15,7 @@ var setUser = function () {
   }
 };
 
-var setChatMessage = function(data){
+var setChatMessage = function (data) {
   var p = document.createElement('p');
   p.innerHTML = data.name + ': ' + data.message;
   chatEl.appendChild(p);
@@ -24,7 +24,7 @@ var setChatMessage = function(data){
 
   if (count > 100) {
     chatEl.removeChild(chatEl.getElementsByTagName('p')[0]);
-    a.shift();
+    chatArr.shift();
     count --;
   }
 };
@@ -34,12 +34,12 @@ var httpRequest = new XMLHttpRequest();
 getUserData();
 
 if (getChatSessionStorage){
-  JSON.parse(getChatSessionStorage).forEach(function(data){
-    a.push(data);
+  JSON.parse(getChatSessionStorage).forEach( function (data) {
+    chatArr.push(data);
     setChatMessage(data);
   });
 }else {
-  window.sessionStorage.setItem('chat', JSON.stringify(a));
+  window.sessionStorage.setItem('chat', JSON.stringify(chatArr));
 }
 
 function getUserData() {
@@ -57,8 +57,8 @@ document.getElementById('chat-form').onsubmit = function (event) {
 
 socket.on('message', function (data) {
   setChatMessage(data);
-  a.push(data);
-  window.sessionStorage.setItem('chat', JSON.stringify(a));
+  chatArr.push(data);
+  window.sessionStorage.setItem('chat', JSON.stringify(chatArr));
 });
 
 socket.on('users', function (data) {
