@@ -9,7 +9,8 @@ After cloning the repo, install dependencies and copy the local configuration fi
 
 Create a Twilio account. After you create it, go to https://www.twilio.com/user/account/ to get the SID and Auth Token. Enter these into local.json
 
-Make sure that `twilioNumber` in local.json has an area code.
+Make sure that `twilioNumber` in local.json is prefixed by '1' and the area
+code, i.e. "1NNNNNNNNNN".
 
 Then start the server:
 
