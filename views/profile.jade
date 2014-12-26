@@ -10,7 +10,7 @@ block content
       p.error= error
     label(for='name') name*
       input(type='text', name='name', value='#{user && user.name ? user.name : ""}', required)
-    label(for='websites') websites (comma delimited)
+    label(for='websites') websites (space delimited)
       input(type='text', name='websites', value='#{user && user.websites ? user.websites : ""}')
     label(for='bio') bio
       textarea(rows='5', cols='50', name='bio')= (user && user.bio ? user.bio : "")

@@ -385,6 +385,11 @@ pre, article p, li {
   padding-top: 10px;
 }
 
+.content article p.reply {
+  font-style: italic;
+  margin-bottom: 0;
+}
+
 @media only screen and (max-width: 719px) {
   section {
     clear: both;
