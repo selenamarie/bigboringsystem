@@ -24,6 +24,7 @@ var setChatMessage = function(data){
 
   if (count > 100) {
     chatEl.removeChild(chatEl.getElementsByTagName('p')[0]);
+    a.shift();
     count --;
   }
 };
@@ -34,6 +35,7 @@ getUserData();
 
 if (getChatSessionStorage){
   JSON.parse(getChatSessionStorage).forEach(function(data){
+    a.push(data);
     setChatMessage(data);
   });
 }else {
