@@ -1,78 +1,72 @@
 'use strict';
+(function () {
+  var socket = io();
+  var count = 0;
+  var getChatSessionStorage = window.sessionStorage.getItem('chat');
+  var chatEl = document.getElementById('chat');
 
-var socket = io();
-var count = 0;
-var getChatSessionStorage = window.sessionStorage.getItem('chat');
-var chatArr = [];
-var chatEl = document.getElementById('chat');
-
-var setUser = function () {
-  if (httpRequest.readyState === 4) {
-    if (httpRequest.status === 200) {
-      console.log(httpRequest.responseText);
-      socket.emit('user', JSON.parse(httpRequest.responseText));
+  var setUser = function () {
+    if (httpRequest.readyState === 4) {
+      if (httpRequest.status === 200) {
+        console.log(httpRequest.responseText);
+        socket.emit('user', JSON.parse(httpRequest.responseText));
+      }
     }
+  };
+
+  var setChatMessage = function (data) {
+    var p = document.createElement('p');
+    p.innerHTML = data.name + ': ' + data.message;
+    chatEl.appendChild(p);
+    p.scrollIntoView();
+    count ++;
+
+    if (count > 100) {
+      chatEl.removeChild(chatEl.getElementsByTagName('p')[0]);
+      count --;
+    }
+  };
+
+  var httpRequest = new XMLHttpRequest();
+
+  getUserData();
+
+  if (getChatSessionStorage){
+    JSON.parse(getChatSessionStorage).forEach( function (data) {
+      setChatMessage(data);
+    });
   }
-};
 
-var setChatMessage = function (data) {
-  var p = document.createElement('p');
-  p.innerHTML = data.name + ': ' + data.message;
-  chatEl.appendChild(p);
-  p.scrollIntoView();
-  count ++;
-
-  if (count > 100) {
-    chatEl.removeChild(chatEl.getElementsByTagName('p')[0]);
-    chatArr.shift();
-    count --;
+  function getUserData() {
+    httpRequest.onreadystatechange = setUser;
+    httpRequest.open('GET', '/user');
+    httpRequest.send();
   }
-};
 
-var httpRequest = new XMLHttpRequest();
+  document.getElementById('chat-form').onsubmit = function (event) {
+    event.preventDefault();
+    var message = document.querySelector('#message');
+    socket.emit('message', message.value);
+    message.value = '';
+  };
 
-getUserData();
-
-if (getChatSessionStorage){
-  JSON.parse(getChatSessionStorage).forEach( function (data) {
-    chatArr.push(data);
+  socket.on('message', function (data) {
     setChatMessage(data);
   });
-}else {
-  window.sessionStorage.setItem('chat', JSON.stringify(chatArr));
-}
 
-function getUserData() {
-  httpRequest.onreadystatechange = setUser;
-  httpRequest.open('GET', '/user');
-  httpRequest.send();
-}
+  socket.on('users', function (data) {
+    var userList = document.getElementById('users');
+    userList.innerHTML = '';
 
-document.getElementById('chat-form').onsubmit = function (event) {
-  event.preventDefault();
-  var message = document.querySelector('#message');
-  socket.emit('message', message.value);
-  message.value = '';
-};
+    for (var user in data) {
+      var li = document.createElement('li');
+      var userItem = '<a href="/user/' + user + '">' + data[user] + '</a>';
+      li.innerHTML = userItem;
+      userList.appendChild(li);
+    }
+  });
 
-socket.on('message', function (data) {
-  setChatMessage(data);
-  chatArr.push(data);
-  window.sessionStorage.setItem('chat', JSON.stringify(chatArr));
-});
-
-socket.on('users', function (data) {
-  var userList = document.getElementById('users');
-  userList.innerHTML = '';
-
-  for (var user in data) {
-    var li = document.createElement('li');
-    var userItem = '<a href="/user/' + user + '">' + data[user] + '</a>';
-    li.innerHTML = userItem;
-    userList.appendChild(li);
-  }
-});
-
-socket.on('connect', function () {
-  getUserData();
-});
+  socket.on('connect', function () {
+    getUserData();
+  });
+})();
