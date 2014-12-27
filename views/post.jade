@@ -1,7 +1,7 @@
 extend layout
 
 block content
-  if session && session === post.uid
+  if session && (session === post.uid || op)
     form(method='POST', action='/post/#{id}', class='delete')
       input(type='hidden', name='uid', value='#{post.uid}')
       input(type='hidden', name='crumb', value='#{crumb}')
