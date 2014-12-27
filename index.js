@@ -324,6 +324,7 @@ server.start(function () {
         io.emit('message', {
           name: socket.user,
           uid: socket.uid,
+          timestamp: (new Date()).toISOString(),
           message: utils.autoLink(data, {
             htmlEscapeNonEntities: true,
             targetBlank: true
