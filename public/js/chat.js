@@ -17,7 +17,12 @@
 
   var setChatMessage = function (data) {
     var p = document.createElement('p');
-    p.innerHTML = data.name + ': ' + data.message;
+    var time;
+    if (data.timestamp) {
+      var d = new Date(data.timestamp);
+      time = '[' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '] ';
+    }
+    p.innerHTML = (time ? time : '') + data.name + ': ' + data.message;
     chatEl.appendChild(p);
     p.scrollIntoView();
     count ++;
