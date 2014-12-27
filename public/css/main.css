@@ -311,6 +311,14 @@ section li a {
   margin-bottom: 3px;
 }
 
+#chat strong {
+  font-weight: bold;
+}
+
+#chat .timestamp {
+  color: #aaa;
+}
+
 #auth {
   position: fixed;
   right: 5px;

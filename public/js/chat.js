@@ -25,6 +25,7 @@
 
   var setChatMessage = function (data) {
     var p = document.createElement('p');
+
     var time;
     if (data.timestamp) {
       var date = new Date(data.timestamp);
@@ -34,7 +35,7 @@
 
       time = '[' + hours + ':' + minutes + ':' + seconds + '] ';
     }
-    p.innerHTML = (time ? time : '') + data.name + ': ' + data.message;
+    p.innerHTML = '<span class="timestamp">'+(time ? time : '')+'</span>' + '<strong>'+data.name+'</strong>' + ': ' + data.message;
     chatEl.appendChild(p);
     p.scrollIntoView();
     count ++;
