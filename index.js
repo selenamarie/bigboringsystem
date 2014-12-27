@@ -204,6 +204,11 @@ var routes = [
     method: 'GET',
     path: '/fixnames',
     handler: utils.fixNames
+  },
+  {
+    method: 'POST',
+    path: '/deleteaccount',
+    handler: profile.deleteAccount
   }
 ];
 
@@ -225,13 +230,15 @@ server.ext('onPreResponse', function (request, reply) {
   var response = request.response;
 
   if (!response.isBoom) {
-    if (['/profile', '/messages', '/chat', '/posts', '/links', '/users'].indexOf(request.path) > -1) {
+    if (['/profile', '/messages', '/chat', '/posts', '/links', '/users',
+         '/deleteaccount'].indexOf(request.path) > -1) {
       if (!request.session.get('uid')) {
         return reply.redirect('/');
       }
     }
 
-    if (['/', '/messages', '/chat', '/posts', '/discover', '/links', '/users', '/ban', '/unban'].indexOf(request.path) > -1) {
+    if (['/', '/messages', '/chat', '/posts', '/discover', '/links',
+         '/users', '/ban', '/unban', '/deleteaccount'].indexOf(request.path) > -1) {
       if (request.session.get('uid') && !request.session.get('name')) {
         return reply.redirect('/profile');
       }
