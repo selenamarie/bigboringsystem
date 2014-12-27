@@ -297,6 +297,7 @@ server.start(function () {
     console.log('connected to local socket');
 
     socket.on('user', function (user) {
+      if (socket.user || socket.uid) return;
       console.log('user connected ', user)
       socket.user = user.name;
       socket.uid = user.uid;
