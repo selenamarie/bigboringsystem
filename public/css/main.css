@@ -76,6 +76,10 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  background-color: #5BDEFF;
+}
+
 header, .wrapper, section {
   position: relative;
   z-index: 2;
