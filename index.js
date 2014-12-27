@@ -320,7 +320,6 @@ server.start(function () {
 
     socket.on('message', function (data) {
       if (socket.user && data.trim().length > 0) {
-        console.log(utils.autoLink(data))
         io.emit('message', {
           name: socket.user,
           uid: socket.uid,

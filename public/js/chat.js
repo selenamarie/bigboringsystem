@@ -15,12 +15,24 @@
     }
   };
 
+  var formatTime = function (date) {
+    if (date > 9) {
+      return date;
+    }
+
+    return '0' + date;
+  };
+
   var setChatMessage = function (data) {
     var p = document.createElement('p');
     var time;
     if (data.timestamp) {
-      var d = new Date(data.timestamp);
-      time = '[' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() + '] ';
+      var date = new Date(data.timestamp);
+      var hours = formatTime(date.getHours());
+      var minutes = formatTime(date.getMinutes());
+      var seconds = formatTime(date.getSeconds());
+
+      time = '[' + hours + ':' + minutes + ':' + seconds + '] ';
     }
     p.innerHTML = (time ? time : '') + data.name + ': ' + data.message;
     chatEl.appendChild(p);
