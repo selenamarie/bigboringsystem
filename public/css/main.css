@@ -1,24 +1,30 @@
+/*====================================================================
+----------------------------------------------------------------------
+*
+*  Big Boring System
+*  By ednapiranha with the help of contributors
+*
+----------------------------------------------------------------------
+====================================================================*/
+
 body {
-  background-color: #f9f9f9;
-  font-family: Inconsolata;
   padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Inconsolata, Menlo, monospace;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .back {
+  bottom: 0;
+  left: 160px;
+  top: 0;
+  position: fixed;
+  width: 120px;
   border-left: 1px solid #5bdeff;
   background-color: rgba(255, 255, 255, 0.45);
   border-right: 2px solid rgba(255, 255, 255, 0.95);
-  bottom: 0;
-  left: 160px;
-  position: fixed;
-  width: 120px;
-  top: 0;
   z-index: 1;
-}
-
-.error .back {
-  background-color: rgba(1, 1, 1, 0.20);
-  border-right: 2px solid rgba(1, 1, 1, 0.28);
 }
 
 a {
@@ -27,27 +33,36 @@ a {
   text-decoration: none;
 }
 
-a:hover, a:active {
+a:hover, 
+a:active {
   background-color: #5BDEFF;
 }
 
-header, .wrapper, section {
-  position: relative;
-  z-index: 2;
+pre, article p, li {
+  white-space: pre-wrap;
+  line-height: 1.3rem;
 }
 
-section {
-  float: left;
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
 }
 
-header {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
+.cf:after {
+  clear: both;
 }
+
+
+/*--------------------------------------------------------------------
+* 
+*  Headings
+* 
+--------------------------------------------------------------------*/
 
 h1, h2 {
-  color: #5bdeff;
   margin-bottom: 20px;
+  color: #5bdeff;
 }
 
 h1 {
@@ -55,25 +70,33 @@ h1 {
 }
 
 h2 {
-  font-size: 1.6rem;
   border-top: 1px dashed #fff;
   margin-top: 40px;
   padding-top: 10px;
+  font-size: 1.6rem;
 }
 
+/*--------------------------------------------------------------------
+* 
+*  Lists
+* 
+--------------------------------------------------------------------*/
+
 ol {
+  margin-left: 20px;
   list-style-type: decimal;
   list-style-position: outside;
-  margin-left: 20px;
 }
 
 ol li {
   margin-bottom: 10px;
 }
 
-.error h2 {
-  margin: 20px 0;
-}
+/*--------------------------------------------------------------------
+* 
+*  Forms
+* 
+--------------------------------------------------------------------*/
 
 label, button {
   display: block;
@@ -86,22 +109,20 @@ label {
 }
 
 button {
+  padding: 3px;
+  width: 100%;
+  font: 1.4rem Inconsolata, Menlo, monospace;
   background-color: #5bdeff;
   border: 0;
   color: #fff;
   cursor: pointer;
-  font-family: Inconsolata;
-  font-size: 1.4rem;
-  padding: 3px;
-  width: 100%;
 }
 
 input, textarea {
   border: 1px solid #5bdeff;
   display: block;
   clear: both;
-  font-family: Inconsolata;
-  font-size: 1rem;
+  font: 1rem Inconsolata, Menlo, monospace;
   max-width: 400px;
   min-width: 200px;
   margin-top: 3px;
@@ -112,31 +133,6 @@ input, textarea {
 form {
   max-width: 408px;
   margin-bottom: 20px;
-}
-
-#chat-form {
-  bottom: 2px;
-  position: fixed;
-  max-width: 100%;
-  margin: 0;
-  left: 290px;
-  right: 2px;
-}
-
-#chat-form button {
-  float: right;
-  font-size: 1rem;
-  margin: 0 5px 0;
-  min-width: 50px;
-  width: 13%;
-}
-
-#chat-form input {
-  float: left;
-  margin: 0;
-  max-width: 100%;
-  padding: 3px;
-  width: 82%;
 }
 
 .actions input {
@@ -161,6 +157,12 @@ textarea {
   resize: none;
 }
 
+/*--------------------------------------------------------------------
+* 
+*  Errors
+* 
+--------------------------------------------------------------------*/
+
 body.error {
   background-color: #111;
   color: #666;
@@ -178,6 +180,40 @@ body .error {
 body.error a {
   color: #eee;
   border-bottom: 1px dashed #ccc;
+}
+
+.error .back {
+  background-color: rgba(1, 1, 1, 0.20);
+  border-right: 2px solid rgba(1, 1, 1, 0.28);
+}
+
+.error h2 {
+  margin: 20px 0;
+}
+
+/*--------------------------------------------------------------------
+* 
+*  Containers and Sectioning
+* 
+--------------------------------------------------------------------*/
+
+.wrapper {
+  font-size: 1rem;
+  min-width: 280px;
+}
+
+header {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+header, .wrapper, section {
+  position: relative;
+  z-index: 2;
+}
+
+section {
+  float: left;
 }
 
 section {
@@ -216,6 +252,12 @@ section li a {
   font-size: 1.1rem;
   line-height: 1.7rem;
 }
+
+/*--------------------------------------------------------------------
+* 
+*  Chat
+* 
+--------------------------------------------------------------------*/
 
 #users {
   bottom: 35px;
@@ -270,17 +312,43 @@ section li a {
   color: #aaa;
 }
 
-#auth {
+#chat-form {
+  bottom: 2px;
   position: fixed;
-  right: 5px;
-  z-index: 2;
-  top: 2px;
+  max-width: 100%;
+  margin: 0;
+  left: 290px;
+  right: 2px;
 }
 
-.wrapper {
+#chat-form button {
+  float: right;
   font-size: 1rem;
-  min-width: 280px;
+  margin: 0 5px 0;
+  min-width: 50px;
+  width: 13%;
 }
+
+#chat-form input {
+  float: left;
+  margin: 0;
+  max-width: 100%;
+  padding: 3px;
+  width: 82%;
+}
+
+#auth {
+  position: fixed;
+  top: 25px;
+  right: 20px;
+  z-index: 2;
+}
+
+/*--------------------------------------------------------------------
+* 
+*  Posts
+* 
+--------------------------------------------------------------------*/
 
 #posts {
   width: 100%;
@@ -302,11 +370,6 @@ article .posted {
   margin: 10px 0;
 }
 
-pre, article p, li {
-  white-space: pre-wrap;
-  line-height: 1.3rem;
-}
-
 .links li {
   margin-bottom: 10px;
 }
@@ -314,6 +377,12 @@ pre, article p, li {
 .links li a {
   line-height: 1.4rem;
 }
+
+/*--------------------------------------------------------------------
+* 
+*  Ops
+* 
+--------------------------------------------------------------------*/
 
 .op a:after {
   content: ' *';
@@ -356,6 +425,12 @@ pre, article p, li {
 .delete-account {
   margin-top: 150px;
 }
+
+/*--------------------------------------------------------------------
+* 
+*  Mobile and Tablet Views
+* 
+--------------------------------------------------------------------*/
 
 @media only screen and (max-width: 719px) {
   section {
