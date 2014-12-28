@@ -311,6 +311,10 @@ section li a {
   margin-bottom: 3px;
 }
 
+#chat .timestamp {
+  font-size: 0.9rem;
+}
+
 #chat strong {
   font-weight: bold;
 }
@@ -486,6 +490,10 @@ pre, article p, li {
     margin-left: 0;
     margin-top: 10px;
     width: 100%;
+  }
+
+  #chat .timestamp {
+    font-size: 0.8rem;
   }
 
   input, textarea {
