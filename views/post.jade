@@ -10,6 +10,9 @@ block content
     a(href='/user/#{post.uid}')= post.name
   article
     time= post.created
+    if post.reply
+      p.reply in reply to:&#xa0;
+        != post.reply
     pre!= post.content
 
 block login

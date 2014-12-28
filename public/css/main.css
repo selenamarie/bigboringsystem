@@ -262,6 +262,14 @@ section li a {
   margin-bottom: 3px;
 }
 
+#chat strong {
+  font-weight: bold;
+}
+
+#chat .timestamp {
+  color: #aaa;
+}
+
 #auth {
   position: fixed;
   right: 5px;
@@ -343,6 +351,10 @@ pre, article p, li {
 .content article p.reply {
   font-style: italic;
   margin-bottom: 0;
+}
+
+.delete-account {
+  margin-top: 150px;
 }
 
 @media only screen and (max-width: 719px) {

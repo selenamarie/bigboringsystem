@@ -30,3 +30,14 @@ block content
 
   for number in user.secondary
     p= user.secondary[number]
+
+  if ((op && !userOp) || session)
+    h2.delete-account Delete account
+    p If you delete this account, all posts associated with this will be removed.
+
+    form(method='post', action='/deleteaccount')
+      input(type='hidden', name='uid', value='#{session}')
+      input(type='hidden', name='crumb', value='#{crumb}')
+      button.ban(type='submit') delete account
+
+block login

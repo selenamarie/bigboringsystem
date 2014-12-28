@@ -28,7 +28,7 @@ block content
     li!= websites
 
   h2 bio
-  p!= bio
+  pre!= bio
 
   h2 recent posts
   #posts
@@ -40,5 +40,15 @@ block content
     .pagination
       if next && lastKey
         a(href='/user/#{uid}?last=#{lastKey}') older
+
+  if op && !userOp
+    h2.delete-account Delete account
+
+    p If you delete this account, all posts associated with this will be removed.
+
+    form(method='post', action='/deleteaccount')
+      input(type='hidden', name='uid', value='#{uid}')
+      input(type='hidden', name='crumb', value='#{crumb}')
+      button.ban(type='submit') delete account
 
 block login
