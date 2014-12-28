@@ -312,15 +312,12 @@ section li a {
 }
 
 #chat .timestamp {
+  color: #aaa;
   font-size: 0.9rem;
 }
 
 #chat strong {
   font-weight: bold;
-}
-
-#chat .timestamp {
-  color: #aaa;
 }
 
 #auth {
