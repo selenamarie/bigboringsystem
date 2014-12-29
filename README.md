@@ -28,6 +28,6 @@ Visit http://localhost:3000 in your browser.
 Make sure to add yourself as an op in local.json by entering your UID. You can find this on your http://localhost:3000/profile page near the top.
 
 > This version of [Big Boring System][http://bigboringsystem] intentionally has
-> no threading or replies. Check [this post][yunohavecomments] for more details.
+> no threading. Check [this post][post_no_threading] for more details.
 
-[yunohavecomments]: http://bigboringsystem.com/post/user!2c0346c9-6434-41aa-8ee8-4167c1af5b70!1419794369
+[post_no_threading]: http://bigboringsystem.com/post/user!2c0346c9-6434-41aa-8ee8-4167c1af5b70!1419794369
