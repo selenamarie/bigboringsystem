@@ -28,7 +28,10 @@
     "moment": "~2.8.4"
   },
   "devDependencies": {
-    "nodemon": "~1.2.1"
+    "nodemon": "~1.2.1",
+    "mocha": "~2.1.0",
+    "should": "~4.4.2",
+    "nock": "~0.52.4"
   },
   "repository": {
     "type": "git",
