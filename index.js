@@ -9,6 +9,9 @@ var SocketIO = require('socket.io');
 var services = require('./lib/services');
 var profile = require('./lib/profile');
 var auth = require('./lib/auth');
+
+auth.setDB();
+
 var posts = require('./lib/posts');
 var utils = require('./lib/utils');
 
@@ -277,13 +280,15 @@ server.ext('onPreResponse', function (request, reply) {
   }
 });
 
-server.register({
-  register: require('crumb')
-}, function (err) {
-  if (err) {
-    throw err;
-  }
-});
+if (process.env.NODE_ENV !== 'test') {
+  server.register({
+    register: require('crumb')
+  }, function (err) {
+    if (err) {
+      throw err;
+    }
+  });
+}
 
 var options = {
   cookieOptions: {
@@ -343,3 +348,7 @@ server.start(function () {
     });
   });
 });
+
+exports.getServer = function () {
+  return server;
+};
