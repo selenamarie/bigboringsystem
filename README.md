@@ -31,3 +31,8 @@ Make sure to add yourself as an op in local.json by entering your UID. You can f
 > no threading. Check [this post][post_no_threading] for more details.
 
 [post_no_threading]: http://bigboringsystem.com/post/user!2c0346c9-6434-41aa-8ee8-4167c1af5b70!1419794369
+
+
+## Tests
+
+    npm test
