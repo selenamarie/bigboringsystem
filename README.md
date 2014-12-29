@@ -1,5 +1,9 @@
 # big boring system
 
+## Feel like contributing?
+
+Please review https://github.com/bigboringsystem/bigboringsystem/blob/master/CONTRIBUTING.md
+
 ## Setup
 
 After cloning the repo, install dependencies and copy the local configuration file:
