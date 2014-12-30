@@ -17,5 +17,6 @@ var buildStylus = function () {
 
 gulp.task('default', function () {
   nodemon({ script: './index.js', ext: 'js jade styl', ignore: ['./dist/**']})
+    .on('start', buildStylus)
     .on('change', buildStylus);
 });
