@@ -9,6 +9,9 @@ var SocketIO = require('socket.io');
 var services = require('./lib/services');
 var profile = require('./lib/profile');
 var auth = require('./lib/auth');
+
+auth.setDB();
+
 var posts = require('./lib/posts');
 var utils = require('./lib/utils');
 
@@ -228,17 +231,16 @@ server.route({
 
 server.ext('onPreResponse', function (request, reply) {
   var response = request.response;
-
   if (!response.isBoom) {
     if (['/profile', '/messages', '/chat', '/posts', '/links', '/users',
-         '/deleteaccount'].indexOf(request.path) > -1) {
+         '/deleteaccount', '/post'].indexOf(request.path) > -1) {
       if (!request.session.get('uid')) {
         return reply.redirect('/');
       }
     }
 
     if (['/', '/messages', '/chat', '/posts', '/discover', '/links',
-         '/users', '/ban', '/unban', '/deleteaccount'].indexOf(request.path) > -1) {
+         '/users', '/ban', '/unban', '/deleteaccount', '/post'].indexOf(request.path) > -1) {
       if (request.session.get('uid') && !request.session.get('name')) {
         return reply.redirect('/profile');
       }
@@ -277,13 +279,15 @@ server.ext('onPreResponse', function (request, reply) {
   }
 });
 
-server.register({
-  register: require('crumb')
-}, function (err) {
-  if (err) {
-    throw err;
-  }
-});
+if (process.env.NODE_ENV !== 'test') {
+  server.register({
+    register: require('crumb')
+  }, function (err) {
+    if (err) {
+      throw err;
+    }
+  });
+}
 
 var options = {
   cookieOptions: {
@@ -343,3 +347,7 @@ server.start(function () {
     });
   });
 });
+
+exports.getServer = function () {
+  return server;
+};

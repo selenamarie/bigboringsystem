@@ -304,12 +304,13 @@ section li a {
   margin-bottom: 3px;
 }
 
-#chat strong {
-  font-weight: bold;
-}
-
 #chat .timestamp {
   color: #aaa;
+  font-size: 0.9rem;
+}
+
+#chat strong {
+  font-weight: bold;
 }
 
 #chat-form {
@@ -521,6 +522,10 @@ article .posted {
     margin-left: 0;
     margin-top: 10px;
     width: 100%;
+  }
+
+  #chat .timestamp {
+    font-size: 0.8rem;
   }
 
   input, textarea {

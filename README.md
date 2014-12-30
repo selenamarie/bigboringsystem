@@ -1,5 +1,9 @@
 # big boring system
 
+## Feel like contributing?
+
+Please review https://github.com/bigboringsystem/bigboringsystem/blob/master/CONTRIBUTING.md
+
 ## Setup
 
 After cloning the repo, install dependencies and copy the local configuration file:
@@ -22,3 +26,13 @@ Visit http://localhost:3000 in your browser.
 ## Ops
 
 Make sure to add yourself as an op in local.json by entering your UID. You can find this on your http://localhost:3000/profile page near the top.
+
+> This version of [Big Boring System](http://bigboringsystem.com) intentionally has
+> no threading. Check [this post][post_no_threading] for more details.
+
+[post_no_threading]: http://bigboringsystem.com/post/user!2c0346c9-6434-41aa-8ee8-4167c1af5b70!1419794369
+
+
+## Tests
+
+    npm test

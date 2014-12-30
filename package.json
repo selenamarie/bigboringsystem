@@ -8,7 +8,8 @@
     "npm": "2.x.x"
   },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "test": "lab"
   },
   "dependencies": {
     "crumb": "~4.0.0",
@@ -28,7 +29,10 @@
     "moment": "~2.8.4"
   },
   "devDependencies": {
-    "nodemon": "~1.2.1"
+    "nodemon": "~1.2.1",
+    "lab": "~5.1.1",
+    "nock": "~0.52.4",
+    "code": "~1.2.1"
   },
   "repository": {
     "type": "git",
