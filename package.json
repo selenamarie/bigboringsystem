@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "nodemon index.js",
-    "test": "make test"
+    "test": "lab"
   },
   "dependencies": {
     "crumb": "~4.0.0",
