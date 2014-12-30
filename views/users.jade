@@ -3,11 +3,7 @@ extend layout
 block content
   h1 community listing
 
-<<<<<<< HEAD
   ul.links.links-users.cf
-=======
-  ul#user-list.links
->>>>>>> 2c8d0fea9e12726a3e6916195ff717cffe59367c
     for user in users
       li(class='#{user.op ? "op" : ""}')
         a(href='/user/#{user.value.uid}')= user.value.name
