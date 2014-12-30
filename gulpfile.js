@@ -6,7 +6,7 @@ var nodemon = require('gulp-nodemon');
 var src = {
   stylus: './public/styl/main.styl'
 };
-var dist = './dist/build';
+var dist = './public/css/';
 
 var buildStylus = function () {
   gulp.src(src.stylus)
@@ -16,7 +16,7 @@ var buildStylus = function () {
 };
 
 gulp.task('default', function () {
-  nodemon({ script: './index.js', ext: 'js jade styl', ignore: ['./dist/**']})
+  nodemon({ script: './index.js', ext: 'js jade styl', ignore: ['./public/css/bundle.css']})
     .on('start', buildStylus)
     .on('change', buildStylus);
 });

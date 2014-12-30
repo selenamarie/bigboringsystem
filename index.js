@@ -218,19 +218,6 @@ var routes = [
 server.route(routes);
 
 server.route({
-  path: '/dist/build/{p*}',
-  method: 'GET',
-  handler: {
-    directory: {
-      path: './dist/build',
-      listing: false,
-      index: false,
-      lookupCompressed: true
-    }
-  }
-});
-
-server.route({
   path: '/{p*}',
   method: 'GET',
   handler: {
