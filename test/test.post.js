@@ -216,7 +216,7 @@ lab.test('verify post on /discover', function (done) {
 
     var timeRe = new RegExp('<time>.*<a href="/post/post!([^"]+)"(.*?)</time>');
     var time = article.match(timeRe)[1];
-    Code.expect(time).to.match(/^[0-9]+$/);
+    Code.expect(time).to.match(/^[0-9]+-[0-9a-f]+$/);
 
     var authorRe = new RegExp('<a href="/user/([^"]+)">Mx. Test</a>');
     Code.expect(article).to.match(authorRe);
