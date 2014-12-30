@@ -35,6 +35,7 @@ profile.setDB('./test/db/profile');
 
 // Not a very smart cookie jar, but good enough for this purpose
 var deliciousDelicacies = {};
+
 var saveCookies = function (response) {
   var sc = response.headers['set-cookie'];
   if (!sc) return;
@@ -45,6 +46,7 @@ var saveCookies = function (response) {
     deliciousDelicacies[key] = val;
   });
 };
+
 var cookieHeader = function () {
   var ch = Object.keys(deliciousDelicacies).map(function (key) {
     return key + '=' + deliciousDelicacies[key];
@@ -53,9 +55,9 @@ var cookieHeader = function () {
 };
 
 
-var resetDB = function (cb) {
+var resetDB = function (next) {
   child.exec('rm -rf ./test/db/*', function () {
-    cb();
+    next();
   });
 };
 
