@@ -231,17 +231,16 @@ server.route({
 
 server.ext('onPreResponse', function (request, reply) {
   var response = request.response;
-
   if (!response.isBoom) {
     if (['/profile', '/messages', '/chat', '/posts', '/links', '/users',
-         '/deleteaccount'].indexOf(request.path) > -1) {
+         '/deleteaccount', '/post'].indexOf(request.path) > -1) {
       if (!request.session.get('uid')) {
         return reply.redirect('/');
       }
     }
 
     if (['/', '/messages', '/chat', '/posts', '/discover', '/links',
-         '/users', '/ban', '/unban', '/deleteaccount'].indexOf(request.path) > -1) {
+         '/users', '/ban', '/unban', '/deleteaccount', '/post'].indexOf(request.path) > -1) {
       if (request.session.get('uid') && !request.session.get('name')) {
         return reply.redirect('/profile');
       }
