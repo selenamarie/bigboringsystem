@@ -1,4 +1,5 @@
 .idea
 .DS_Store
+public/css
 node_modules
 local.json
