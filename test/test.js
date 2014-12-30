@@ -49,7 +49,6 @@ var cookieHeader = function () {
   var ch = Object.keys(deliciousDelicacies).map(function (key) {
     return key + '=' + deliciousDelicacies[key];
   }).join(',');
-  console.error(ch);
   return ch;
 };
 
@@ -79,12 +78,39 @@ lab.test('successful authentication by phone number generates a PIN', function (
   server.inject(options, function (response) {
     saveCookies(response);
 
-    console.error(response.headers['set-cookie']);
-
     Code.expect(response.statusCode).to.equal(302);
     Code.expect(response.headers.location).to.equal('/authenticate');
     done();
   });
+});
+
+lab.test('unsuccessful authentication by multiple login attempts', function (done) {
+  var options = {
+    method: 'POST',
+    url: '/login',
+    payload: {
+      phone: fixtures.phone
+    }
+  };
+
+  var count = 1;
+
+  function postLogin() {
+    server.inject(options, function (response) {
+      Code.expect(response.statusCode).to.equal(302);
+
+      if (count <= 3) {
+        Code.expect(response.headers.location).to.equal('/authenticate');
+        postLogin();
+        count ++;
+      } else {
+        Code.expect(response.headers.location).to.equal('/login?err=Your+number+has+been+banned.+Please+contact+an+operator.');
+        resetDB(done);
+      }
+    });
+  };
+
+  postLogin();
 });
 
 lab.test('log in with valid pin', function (done) {
@@ -103,10 +129,26 @@ lab.test('log in with valid pin', function (done) {
     saveCookies(response);
     Code.expect(response.statusCode).to.equal(302);
     Code.expect(response.headers.location).to.equal('/');
-    console.error(response.headers);
     done();
   });
 });
+
+lab.test('authenticate with an invalid PIN', function (done) {
+  var options = {
+    method: 'POST',
+    url: '/authenticate',
+    payload: {
+      pin: '0000'
+    }
+  };
+
+  server.inject(options, function (response) {
+    Code.expect(response.statusCode).to.equal(302);
+    Code.expect(response.headers.location).to.equal('/authenticate?err=Invalid+pin');
+    resetDB(done);
+  });
+});
+
 
 lab.test('create new post without a name', function (done) {
   var options = {
@@ -208,11 +250,8 @@ lab.test('verify post on /discover', function (done) {
 
   server.inject(options, function (response) {
     saveCookies(response);
-    console.error('response %j', response.headers);
-
     var article = response.payload.split('<article>')[1];
     article = article.split('</article>')[0];
-    console.error(article)
 
     var timeRe = new RegExp('<time>.*<a href="/post/post!([^"]+)"(.*?)</time>');
     var time = article.match(timeRe)[1];
@@ -266,8 +305,6 @@ lab.test('verify post on /discover', function (done) {
 
   server.inject(options, function (response) {
     saveCookies(response);
-    console.error('response %j', response.headers);
-    console.error(response.payload);
 
     // verify that we have two articles now.
     Code.expect(response.payload).to.match(/Reply forthwith/);
@@ -275,4 +312,8 @@ lab.test('verify post on /discover', function (done) {
     Code.expect(response.statusCode).to.equal(200);
     done();
   });
+});
+
+lab.test('cleanup', function (done) {
+  resetDB(done);
 });
