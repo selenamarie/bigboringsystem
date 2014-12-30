@@ -2,7 +2,7 @@ extend layout
 
 block login
   form(method='post', action='/authenticate')
-    input(type='text', name='pin', required)
+    input(type='text', name='pin', autocomplete='off', required)
     if error
       p.error= error
     input(type='hidden', name='crumb', value='#{crumb}')
