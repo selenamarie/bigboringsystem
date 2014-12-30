@@ -16,8 +16,10 @@ var ban = require('../lib/ban');
 ban.setDB('./test/db/bans');
 
 // delete all test dbs
-var resetDB = function () {
-  child.exec('rm -rf ./test/db/bans ./test/db/logins');
+var resetDB = function (cb) {
+  child.exec('rm -rf ./test/db/bans ./test/db/logins', function () {
+    cb();
+  });
 }
 
 lab.test('successful authentication by phone number generates a PIN', function (done) {
@@ -34,8 +36,7 @@ lab.test('successful authentication by phone number generates a PIN', function (
 
     Code.expect(response.statusCode).to.equal(302);
     Code.expect(response.headers.location).to.equal('/authenticate');
-    resetDB();
-    done();
+    resetDB(done);
   });
 });
 
@@ -60,8 +61,7 @@ lab.test('unsuccessful authentication by multiple login attempts', function (don
         count ++;
       } else {
         Code.expect(response.headers.location).to.equal('/login?err=Your+number+has+been+banned.+Please+contact+an+operator.');
-        resetDB();
-        done();
+        resetDB(done);
       }
     });
   };
@@ -81,8 +81,7 @@ lab.test('authenticate with a valid PIN', function (done) {
   server.inject(options, function (response) {
     Code.expect(response.statusCode).to.equal(302);
     Code.expect(response.headers.location).to.equal('/');
-    resetDB();
-    done();
+    resetDB(done);
   });
 });
 
@@ -98,7 +97,6 @@ lab.test('authenticate with an invalid PIN', function (done) {
   server.inject(options, function (response) {
     Code.expect(response.statusCode).to.equal(302);
     Code.expect(response.headers.location).to.equal('/authenticate?err=Invalid+pin');
-    resetDB();
-    done();
+    resetDB(done);
   });
 });
