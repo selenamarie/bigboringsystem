@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var stylus = require('gulp-stylus');
 var concat = require('gulp-concat');
-var nodemon = require('gulp-nodemon');  
+var nodemon = require('gulp-nodemon');
 
 var src = {
   stylus: './public/styl/main.styl'
