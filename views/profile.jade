@@ -31,7 +31,7 @@ block content
   for number in user.secondary
     p= user.secondary[number]
 
-  if ((op && !userOp) || session)
+  if (op && !userOp)
     h2.delete-account Delete account
     p If you delete this account, all posts associated with this will be removed.
 
@@ -39,5 +39,8 @@ block content
       input(type='hidden', name='uid', value='#{session}')
       input(type='hidden', name='crumb', value='#{crumb}')
       button.ban(type='submit') delete account
+  else if session
+    h2.delete-account Delete account
+    p Please contact an operator to delete your account.
 
 block login
