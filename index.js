@@ -10,8 +10,6 @@ var services = require('./lib/services');
 var profile = require('./lib/profile');
 var auth = require('./lib/auth');
 
-auth.setDB();
-
 var posts = require('./lib/posts');
 var utils = require('./lib/utils');
 

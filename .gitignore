@@ -3,3 +3,5 @@
 public/css
 node_modules
 local.json
+db/
+test/db/
