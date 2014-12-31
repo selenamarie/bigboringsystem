@@ -36,8 +36,11 @@
       time = '[' + hours + ':' + minutes + ':' + seconds + '] ';
     }
     p.innerHTML = '<span class="timestamp">'+(time ? time : '')+'</span>' + '<strong>'+data.name+'</strong>' + ': ' + data.message;
+    var shouldScroll = (chatEl.scrollHeight - chatEl.scrollTop === chatEl.clientHeight);
     chatEl.appendChild(p);
-    p.scrollIntoView();
+    if (shouldScroll) {
+      p.scrollIntoView();
+    }
     count ++;
 
     if (count > 100) {
