@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "gulp",
-    "test": "lab"
+    "test": "lab",
+    "lint": "eslint lib/"
   },
   "dependencies": {
     "crumb": "~4.0.0",
@@ -34,6 +35,7 @@
     "gulp-concat": "^2.4.3",
     "gulp-nodemon": "^1.0.4",
     "gulp-stylus": "^1.3.4",
+    "eslint": "^0.10.2",
     "lab": "~5.1.1",
     "nock": "~0.52.4",
     "nodemon": "~1.2.1"
