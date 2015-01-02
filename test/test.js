@@ -465,7 +465,7 @@ lab.test('verify that replies section is gone', function (done) {
 
     // should not contain a 'replies' section any more.
     var replies = response.payload.split('replies:');
-    Code.expect(replies.length).to.equal(2);
+    Code.expect(replies.length).to.equal(1);
     done();
   });
 });
