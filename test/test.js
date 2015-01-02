@@ -85,7 +85,7 @@ lab.after(function (done) {
 lab.test('successful authentication by phone number generates a PIN', function (done) {
   var options = {
     method: 'POST',
-    url: '/login',
+    url: 'http://' + HOST + '/login',
     headers: {
       cookie: cookieHeader()
     },
@@ -106,7 +106,7 @@ lab.test('successful authentication by phone number generates a PIN', function (
 lab.test('unsuccessful authentication by multiple login attempts', function (done) {
   var options = {
     method: 'POST',
-    url: '/login',
+    url: 'http://' + HOST + '/login',
     payload: {
       phone: fixtures.phone
     }
@@ -136,7 +136,7 @@ lab.test('unsuccessful authentication by multiple login attempts', function (don
 lab.test('log in with valid pin', function (done) {
   var options = {
     method: 'POST',
-    url: '/authenticate',
+    url: 'http://' + HOST + '/authenticate',
     headers: {
       cookie: cookieHeader()
     },
@@ -157,7 +157,7 @@ lab.test('log in with valid pin', function (done) {
 lab.test('authenticate with an invalid PIN', function (done) {
   var options = {
     method: 'POST',
-    url: '/authenticate',
+    url: 'http://' + HOST + '/authenticate',
     payload: {
       pin: '0000'
     }
@@ -173,7 +173,7 @@ lab.test('authenticate with an invalid PIN', function (done) {
 lab.test('create new post without a name', function (done) {
   var options = {
     method: 'POST',
-    url: '/post',
+    url: 'http://' + HOST + '/post',
     headers: {
       cookie: cookieHeader()
     },
@@ -195,7 +195,7 @@ lab.test('create new post without a name', function (done) {
 lab.test('create new post without a session', function (done) {
   var options = {
     method: 'POST',
-    url: '/post',
+    url: 'http://' + HOST + '/post',
     headers: {
       // NO COOKIES FOR YOU
     },
@@ -217,7 +217,7 @@ lab.test('create new post without a session', function (done) {
 lab.test('add name to profile', function (done) {
   var options = {
     method: 'POST',
-    url: '/profile',
+    url: 'http://' + HOST + '/profile',
     headers: {
       cookie: cookieHeader()
     },
@@ -238,7 +238,7 @@ lab.test('add name to profile', function (done) {
 lab.test('create new post with session and name', function (done) {
   var options = {
     method: 'POST',
-    url: '/post',
+    url: 'http://' + HOST + '/post',
     headers: {
       cookie: cookieHeader()
     },
@@ -257,11 +257,12 @@ lab.test('create new post with session and name', function (done) {
   });
 });
 
-var uid, post;
+
+var uid, post, replypost;
 lab.test('verify post on /discover', function (done) {
   var options = {
     method: 'GET',
-    url: '/discover',
+    url: 'http://' + HOST + '/discover',
     headers: {
       cookie: cookieHeader()
     }
@@ -294,7 +295,7 @@ lab.test('verify post on /discover', function (done) {
 lab.test('make a response post', function (done) {
   var options = {
     method: 'POST',
-    url: '/post',
+    url: 'http://' + HOST + '/post',
     headers: {
       cookie: cookieHeader()
     },
@@ -316,7 +317,7 @@ lab.test('make a response post', function (done) {
 lab.test('verify post on /discover', function (done) {
   var options = {
     method: 'GET',
-    url: '/discover',
+    url: 'http://' + HOST + '/discover',
     headers: {
       cookie: cookieHeader()
     }
@@ -371,6 +372,101 @@ lab.test('get csv export of posts', function (done) {
       Code.expect(data).to.deep.equal(exportData);
       done();
     });
+  });
+});
+
+lab.test('verify post shows reply', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/post/post!' + post,
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    // verify that we have a link to the reply
+    Code.expect(response.statusCode).to.equal(200);
+    var replies = response.payload.split('replies:');
+    replies = replies[1].split('</p>')[0];
+    var re = new RegExp('<a href="/post/post!([^"]+)"');
+    Code.expect(replies).to.match(re);
+    var match = replies.match(re);
+    Code.expect(match[1]).to.not.equal(post);
+    replypost = match[1];
+    done();
+  });
+});
+
+
+lab.test('verify reply links to post', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/post/post!' + replypost,
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    // verify that the reply post links back to the original
+    Code.expect(response.statusCode).to.equal(200);
+    var replies = response.payload.split('in reply to:');
+    replies = replies[1].split('</p>')[0];
+    var re = new RegExp('/post/post!([^"\\s]+)');
+    Code.expect(replies).to.match(re);
+    var match = replies.match(re);
+    Code.expect(match[1]).to.equal(post);
+    done();
+  });
+});
+
+
+lab.test('delete replypost', function (done) {
+  var options = {
+    method: 'POST',
+    url: 'http://' + HOST + '/post/post!' + replypost,
+    headers: {
+      cookie: cookieHeader()
+    },
+    payload: {
+      uid: uid
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    Code.expect(response.statusCode).to.equal(302);
+    Code.expect(response.headers.location).to.equal('/posts');
+    done();
+  });
+});
+
+
+lab.test('verify that replies section is gone', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/post/post!' + post,
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    // verify that we have a link to the reply
+    Code.expect(response.statusCode).to.equal(200);
+
+    // should not contain a 'replies' section any more.
+    var replies = response.payload.split('replies:');
+    Code.expect(replies.length).to.equal(2);
+    done();
   });
 });
 

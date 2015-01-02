@@ -16,4 +16,8 @@ block content
     pre!= post.content
     div.reply-to-post
       a(href='/posts?reply_to=#{id}') Reply to this post
+    if post.replies
+      p.reply replies:
+        != post.replies
+
 block login
