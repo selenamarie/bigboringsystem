@@ -35,7 +35,7 @@ block content
     for post in posts
       article
         time
-          a(href='/post/#{post.key}')= post.value.created
+          a(href='/post/post!#{post.value.postid}')= post.value.created
         pre!= post.value.content
     .pagination
       if next && lastKey
