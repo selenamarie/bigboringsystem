@@ -391,14 +391,26 @@ lab.test('verify post shows reply', function (done) {
 
     // verify that we have a link to the reply
     Code.expect(response.statusCode).to.equal(200);
-    var replies = response.payload.split('replies:');
-    replies = replies[1].split('</p>')[0];
+    var replies = response.payload.split('<p class="reply">replies:</p>');
+    replies = replies[1].split('</article>')[0];
     var re = new RegExp('<a href="/post/post!([^"]+)"');
-    Code.expect(replies).to.match(re);
     var match = replies.match(re);
+    Code.expect(match).to.not.equal(null);
     Code.expect(match[1]).to.not.equal(post);
     replypost = match[1];
-    done();
+
+    // since we are the owner now, verify that we see the moderation forms
+    var action = '/reply/replyto!' + post + '!' + replypost;
+    var form = '<form method="POST" action="' + action +
+               '" class="moderate">';
+    Code.expect(response.payload).to.contain(form);
+
+    // Now try as anon, should not see moderation controls
+    delete options.headers.cookie;
+    server.inject(options, function (response) {
+      Code.expect(response.payload).to.not.contain(form);
+      done();
+    });
   });
 });
 
@@ -427,7 +439,8 @@ lab.test('verify reply links to post', function (done) {
   });
 });
 
-lab.test('invalid reply post id not stored', function (done) {
+
+lab.test('invalid reply post id not stored, valid should be', function (done) {
   var postdb = db('posts');
   postdb.get('replyto!12345-ab!' + replypost, function (err, replyItem) {
     // should get an error, and no replyItem here.
