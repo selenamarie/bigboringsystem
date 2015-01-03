@@ -300,7 +300,9 @@ lab.test('make a response post', function (done) {
       cookie: cookieHeader()
     },
     payload: {
-      reply: 'http://' + HOST  + '/post/post!' + post,
+      reply: 'http://' + HOST + '/post/post!' + post + ' ' +
+             // this isn't a valid link
+             'http://' + HOST + '/post/post!12345-ab',
       content: 'Reply forthwith',
       fuzziewuzzywasabear: 'some fuzes fore goode measuries'
     }
@@ -422,6 +424,20 @@ lab.test('verify reply links to post', function (done) {
     var match = replies.match(re);
     Code.expect(match[1]).to.equal(post);
     done();
+  });
+});
+
+lab.test('invalid reply post id not stored', function (done) {
+  var postdb = db('posts');
+  postdb.get('replyto!12345-ab!' + replypost, function (err, replyItem) {
+    // should get an error, and no replyItem here.
+    Code.expect(!!err).to.equal(true);
+    Code.expect(!!replyItem).to.equal(false);
+    postdb.get('replyto!' + post + '!' + replypost, function (err, replyItem) {
+      Code.expect(!!err).to.equal(false);
+      Code.expect(!!replyItem).to.equal(true);
+      done();
+    });
   });
 });
 
