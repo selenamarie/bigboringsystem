@@ -477,6 +477,98 @@ lab.test('delete replypost', function (done) {
 });
 
 
+lab.test('create another reply', function (done) {
+  var options = {
+    method: 'POST',
+    url: 'http://' + HOST + '/post',
+    headers: {
+      cookie: cookieHeader()
+    },
+    payload: {
+      reply: 'http://' + HOST + '/post/post!' + post + ' ' +
+             // this isn't a valid link
+             'http://' + HOST + '/post/post!12345-ab',
+      content: 'replyparttwo',
+      fuzziewuzzywasabear: 'some fuzes fore goode measuries'
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+    Code.expect(response.statusCode).to.equal(302);
+    Code.expect(response.headers.location).to.equal('/posts');
+    done();
+  });
+});
+
+lab.test('verify post on /discover', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/discover',
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    // verify that we have two articles now.
+    Code.expect(response.payload).to.match(/replyparttwo/);
+    Code.expect(response.payload).to.match(/Ye olde goode poste/);
+    Code.expect(response.statusCode).to.equal(200);
+    done();
+  });
+});
+
+
+lab.test('verify post shows second reply', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/post/post!' + post,
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    // verify that we have a link to the reply
+    Code.expect(response.statusCode).to.equal(200);
+    var replies = response.payload.split('<p class="reply">replies:</p>');
+    replies = replies[1].split('</article>')[0];
+    var re = new RegExp('<a href="/post/post!([^"]+)"');
+    var match = replies.match(re);
+    Code.expect(match).to.not.equal(null);
+    Code.expect(match[1]).to.not.equal(post);
+    replypost = match[1];
+    done();
+  });
+});
+
+
+lab.test('use the moderation form to delete second reply', function (done) {
+  var options = {
+    method: 'POST',
+    url: 'http://' + HOST + '/reply/replyto!' + post + '!' + replypost,
+    headers: {
+      cookie: cookieHeader()
+    },
+    payload: {
+      uid: uid
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+    Code.expect(response.statusCode).to.equal(302);
+    Code.expect(response.headers.location).to.equal('/post/post!' + post);
+    done();
+  });
+});
+
+
 lab.test('verify that replies section is gone', function (done) {
   var options = {
     method: 'GET',

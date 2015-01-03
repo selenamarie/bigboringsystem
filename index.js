@@ -211,6 +211,11 @@ var routes = [
     handler: posts.del
   },
   {
+    method: 'POST',
+    path: '/reply/{key}',
+    handler: posts.delReply
+  },
+  {
     method: 'GET',
     path: '/fixnames',
     handler: utils.fixNames
