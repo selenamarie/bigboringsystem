@@ -39,7 +39,8 @@
     "eslint": "^0.10.2",
     "lab": "~5.1.1",
     "nock": "~0.52.4",
-    "nodemon": "~1.2.1"
+    "nodemon": "~1.2.1",
+    "rimraf": "^2.2.8"
   },
   "repository": {
     "type": "git",

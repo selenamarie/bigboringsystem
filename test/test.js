@@ -15,23 +15,43 @@
 
 process.env.NODE_ENV = 'test';
 
-var child = require('child_process');
+// Have to do this first so that db's get set up in the test folder.
+var testdb = './test/db';
+var conf = require('../lib/conf');
+conf.set('db', testdb);
+conf.set('cookie', 'testsecret');
+
+// Set a different port than the "default", so it doesn't break
+// as often if you're running a dev server and tests together.
+var PORT = process.env.PORT || 8000;
+conf.set('port', PORT);
+var DOMAIN = process.env.DOMAIN || 'localhost';
+conf.set('domain', DOMAIN);
+var HOST = DOMAIN + ':' + PORT;
+
+var rimraf = require('rimraf');
+var resetDB = function () {
+  // delete the test DBs
+  rimraf.sync(testdb);
+  require('fs').mkdirSync(testdb);
+};
+
+// Reset the db's now.  Must be done *before* loading the app
+// or else leveldb will freak out.
+resetDB();
+
+
+var db = require('../lib/db');
+
 var Lab = require('lab');
 var Code = require('code');
 
 var lab = exports.lab = Lab.script();
 
 var fixtures = require('./fixtures.json');
-var server = require('../').getServer();
 
-var posts = require('../lib/posts');
-posts.setDB('./test/db/posts');
-var auth = require('../lib/auth');
-auth.setDB('./test/db/logins');
-var ban = require('../lib/ban');
-ban.setDB('./test/db/bans');
-var profile = require('../lib/profile');
-profile.setDB('./test/db/profile');
+// Now load up the server itself.
+var server = require('../').getServer();
 
 // Not a very smart cookie jar, but good enough for this purpose
 var deliciousDelicacies = {};
@@ -54,20 +74,11 @@ var cookieHeader = function () {
   return ch;
 };
 
-var resetDB = function (next) {
-  child.exec('rm -rf ./test/db/*', function () {
-    next();
-  });
-};
 
-// Initialization before any tests are run
-lab.before(function (done) {
-  resetDB(done);
-});
-
-// Cleanup after all tests are finished
+// once tests are done, delete test db.
 lab.after(function (done) {
-  resetDB(done);
+  resetDB();
+  done();
 });
 
 lab.test('successful authentication by phone number generates a PIN', function (done) {
@@ -112,13 +123,14 @@ lab.test('unsuccessful authentication by multiple login attempts', function (don
         count ++;
       } else {
         Code.expect(response.headers.location).to.equal('/login?err=Your+number+has+been+banned.+Please+contact+an+operator.');
-        resetDB(done);
+        require('../lib/ban').unhammer(fixtures.phone, done);
       }
     });
   };
 
   postLogin();
 });
+
 
 lab.test('log in with valid pin', function (done) {
   var options = {
@@ -140,6 +152,7 @@ lab.test('log in with valid pin', function (done) {
   });
 });
 
+
 lab.test('authenticate with an invalid PIN', function (done) {
   var options = {
     method: 'POST',
@@ -152,7 +165,7 @@ lab.test('authenticate with an invalid PIN', function (done) {
   server.inject(options, function (response) {
     Code.expect(response.statusCode).to.equal(302);
     Code.expect(response.headers.location).to.equal('/authenticate?err=Invalid+pin');
-    resetDB(done);
+    done();
   });
 });
 
@@ -285,7 +298,7 @@ lab.test('make a response post', function (done) {
       cookie: cookieHeader()
     },
     payload: {
-      reply: 'http://localhost:3000/post/post!' + post,
+      reply: 'http://' + HOST  + '/post/post!' + post,
       content: 'Reply forthwith',
       fuzziewuzzywasabear: 'some fuzes fore goode measuries'
     }

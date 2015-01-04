@@ -1,7 +1,7 @@
 'use strict';
 
 var Hapi = require('hapi');
-var nconf = require('nconf');
+var conf = require('./lib/conf');
 var Boom = require('boom');
 var Joi = require('joi');
 var SocketIO = require('socket.io');
@@ -10,21 +10,17 @@ var services = require('./lib/services');
 var profile = require('./lib/profile');
 var auth = require('./lib/auth');
 
-auth.setDB();
-
 var posts = require('./lib/posts');
 var utils = require('./lib/utils');
 
 var chatUsers = {};
 var chatUserCount = 0;
 
-nconf.argv().env().file({ file: 'local.json' });
-
 var server = new Hapi.Server();
 
 server.connection({
-  host: nconf.get('domain'),
-  port: nconf.get('port')
+  host: conf.get('domain'),
+  port: conf.get('port')
 });
 
 server.views({
@@ -291,7 +287,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 var options = {
   cookieOptions: {
-    password: nconf.get('cookie'),
+    password: conf.get('cookie'),
     isSecure: false
   }
 };
