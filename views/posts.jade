@@ -8,6 +8,9 @@ block content
       input#reply-to(type='text', name='reply')
     label content
       textarea(rows='10', cols='90', name='content', required)
+    label
+      input(type='checkbox', name='showreply')
+      = 'show replies to this post'
     if error
       p.error= error
     input(type='hidden', name='crumb', value='#{crumb}')

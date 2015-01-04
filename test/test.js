@@ -245,6 +245,7 @@ lab.test('create new post with session and name', function (done) {
     payload: {
       reply: '',
       content: 'Ye olde goode poste',
+      showreply: 'on',
       fuzze: 'some fuzes fore goode measuries'
     }
   };
@@ -258,7 +259,26 @@ lab.test('create new post with session and name', function (done) {
 });
 
 
-var uid, post, replypost;
+var uid, post, noreplypost, replypost;
+var getArticle = function (payload, snippet) {
+  payload = payload.replace(/\n/g, ' ');
+
+  var article = payload.split('<article>').filter(function (a) {
+    return a.indexOf(snippet) !== -1;
+  })[0];
+  if (!article) {
+    throw new Error(JSON.stringify(snippet) + ' not found in payload');
+  }
+  article = article.replace(new RegExp('</article>.*$'), '');
+  return article;
+};
+var getPostID = function (payload, snippet) {
+  var article = getArticle(payload, snippet);
+  var postid = article.match(new RegExp('href="/post/post!([^"]+)"'))[1];
+  return postid;
+};
+
+
 lab.test('verify post on /discover', function (done) {
   var options = {
     method: 'GET',
@@ -270,18 +290,18 @@ lab.test('verify post on /discover', function (done) {
 
   server.inject(options, function (response) {
     saveCookies(response);
-    var article = response.payload.split('<article>')[1];
-    article = article.split('</article>')[0];
+    var snippet = 'Ye olde goode poste';
+    var article = getArticle(response.payload, snippet);
 
     var timeRe = new RegExp('<time>.*<a href="/post/post!([^"]+)"(.*?)</time>');
     var time = article.match(timeRe)[1];
     Code.expect(time).to.match(/^[0-9]+-[0-9a-f]+$/);
+    post = time;
 
     var authorRe = new RegExp('<a href="/user/([^"]+)">Mx. Test</a>');
     Code.expect(article).to.match(authorRe);
 
     uid = article.match(authorRe)[1];
-    post = time;
 
     Code.expect(article).to.match(/Ye olde goode poste/);
     // Fuzz shouldn't show up anywhere.
@@ -291,6 +311,55 @@ lab.test('verify post on /discover', function (done) {
     done();
   });
 });
+
+
+lab.test('create post that doesnt show replies', function (done) {
+  var options = {
+    method: 'POST',
+    url: 'http://' + HOST + '/post',
+    headers: {
+      cookie: cookieHeader()
+    },
+    payload: {
+      reply: '',
+      content: 'Not interested in replies',
+      showreplies: 'any value other than "on"',
+      fuzze: 'some fuzes fore goode measuries'
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+    Code.expect(response.statusCode).to.equal(302);
+    Code.expect(response.headers.location).to.equal('/posts');
+    done();
+  });
+});
+
+
+lab.test('verify post on /discover', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/discover',
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    noreplypost = getPostID(response.payload, 'Not interested in replies');
+    Code.expect(!!noreplypost).to.not.equal(false);
+    Code.expect(noreplypost).to.not.equal(post);
+    Code.expect(response.payload).to.match(/Not interested in replies/);
+    Code.expect(response.payload).to.match(/Ye olde goode poste/);
+    Code.expect(response.statusCode).to.equal(200);
+    done();
+  });
+});
+
+
 
 lab.test('make a response post', function (done) {
   var options = {
@@ -302,8 +371,11 @@ lab.test('make a response post', function (done) {
     payload: {
       reply: 'http://' + HOST + '/post/post!' + post + ' ' +
              // this isn't a valid link
-             'http://' + HOST + '/post/post!12345-ab',
+             'http://' + HOST + '/post/post!12345-ab ' +
+             // this doesn't track replies
+             'http://' + HOST + '/post/post!' + noreplypost,
       content: 'Reply forthwith',
+      showreply: 'on',
       fuzziewuzzywasabear: 'some fuzes fore goode measuries'
     }
   };
@@ -315,6 +387,7 @@ lab.test('make a response post', function (done) {
     done();
   });
 });
+
 
 lab.test('verify post on /discover', function (done) {
   var options = {
@@ -351,7 +424,7 @@ lab.test('get json export of posts', function (done) {
 
     exportData = response.result;
     Code.expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
-    Code.expect(response.result.length).to.equal(2);
+    Code.expect(response.result.length).to.equal(3);
     done();
   });
 });
@@ -376,6 +449,7 @@ lab.test('get csv export of posts', function (done) {
     });
   });
 });
+
 
 lab.test('verify post shows reply', function (done) {
   var options = {
@@ -411,6 +485,29 @@ lab.test('verify post shows reply', function (done) {
       Code.expect(response.payload).to.not.contain(form);
       done();
     });
+  });
+});
+
+
+lab.test('verify norelply post does not show reply', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/post/post!' + noreplypost,
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    // verify that we have a link to the reply
+    Code.expect(response.statusCode).to.equal(200);
+
+    // should not contain a 'replies' section at all.
+    var replies = response.payload.split('replies:');
+    Code.expect(replies.length).to.equal(1);
+    done();
   });
 });
 
@@ -489,6 +586,7 @@ lab.test('create another reply', function (done) {
              // this isn't a valid link
              'http://' + HOST + '/post/post!12345-ab',
       content: 'replyparttwo',
+      showreply: 'on',
       fuzziewuzzywasabear: 'some fuzes fore goode measuries'
     }
   };
