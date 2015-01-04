@@ -19,6 +19,15 @@ process.env.NODE_ENV = 'test';
 var testdb = './test/db';
 var conf = require('../lib/conf');
 conf.set('db', testdb);
+conf.set('cookie', 'testsecret');
+
+// Set a different port than the "default", so it doesn't break
+// as often if you're running a dev server and tests together.
+var PORT = process.env.PORT || 8000;
+conf.set('port', PORT);
+var DOMAIN = process.env.DOMAIN || 'localhost';
+conf.set('domain', DOMAIN);
+var HOST = DOMAIN + ':' + PORT;
 
 var rimraf = require('rimraf');
 var resetDB = function () {
@@ -289,7 +298,7 @@ lab.test('make a response post', function (done) {
       cookie: cookieHeader()
     },
     payload: {
-      reply: 'http://localhost:3000/post/post!' + post,
+      reply: 'http://' + HOST  + '/post/post!' + post,
       content: 'Reply forthwith',
       fuzziewuzzywasabear: 'some fuzes fore goode measuries'
     }
