@@ -6,6 +6,6 @@
     "twilioSID": "<sid>",
     "twilioToken": "<auth token>",
     "twilioNumber": "15555555555",
-    "ops": ["<uid>"],
+    "ops": [],
     "db": "./db"
 }
