@@ -373,3 +373,22 @@ lab.test('get csv export of posts', function (done) {
     });
   });
 });
+
+
+lab.test('post link redirect to canonical post url', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/post/uid!' + uid + '!' + post,
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    Code.expect(response.statusCode).to.equal(301);
+    Code.expect(response.headers.location).to.equal('/post/post!' + post);
+    done();
+  });
+});
