@@ -18,6 +18,12 @@ var chatUserCount = 0;
 
 var server = new Hapi.Server();
 
+if (!conf.get('port')) {
+  console.error('\n\'port\' is a required local.json field');
+  console.error('If you don\'t have a local.json file set up, please copy local.json-dist and fill in your config info before trying again\n');
+  process.exit(1);
+}
+
 server.connection({
   host: conf.get('domain'),
   port: conf.get('port')
@@ -303,7 +309,15 @@ server.register({
   options: options
 }, function (err) { });
 
-server.start(function () {
+server.start(function (err) {
+
+  if (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
+
+  console.log('\n  b.b.s. server running at ' + server.info.uri + '  \n');
+
   var io = SocketIO.listen(server.listener);
 
   io.on('connection', function (socket) {
