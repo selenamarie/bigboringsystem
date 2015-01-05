@@ -45,6 +45,7 @@ var db = require('../lib/db');
 
 var Lab = require('lab');
 var Code = require('code');
+var parseCSV = require('csv-parse');
 
 var lab = exports.lab = Lab.script();
 
@@ -329,5 +330,46 @@ lab.test('verify post on /discover', function (done) {
     Code.expect(response.payload).to.match(/Ye olde goode poste/);
     Code.expect(response.statusCode).to.equal(200);
     done();
+  });
+});
+
+var exportData = [];
+lab.test('get json export of posts', function (done) {
+  var options = {
+    method: 'GET',
+    url: '/profile/export.json',
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    exportData = response.result;
+    Code.expect(response.headers['content-type']).to.equal('application/json; charset=utf-8');
+    Code.expect(response.result.length).to.equal(2);
+    done();
+  });
+});
+
+lab.test('get csv export of posts', function (done) {
+  var options = {
+    method: 'GET',
+    url: '/profile/export.csv',
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    Code.expect(response.headers['content-type']).to.equal('text/csv; charset=utf-8');
+    parseCSV(response.result, { columns: true, auto_parse: true }, function (err, data) {
+      Code.expect(err).to.be.null();
+      Code.expect(data).to.deep.equal(exportData);
+      done();
+    });
   });
 });
