@@ -14,5 +14,6 @@ block content
       p.reply in reply to:&#xa0;
         != post.reply
     pre!= post.content
-
+    div.replyToPost
+      a(href='/posts?replyTo=#{id}')="Reply to this post"
 block login
