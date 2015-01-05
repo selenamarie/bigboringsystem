@@ -43,11 +43,12 @@ html
                 p.error= error
               input(type='hidden', name='crumb', value='#{crumb}')
               button(type='submit') send my PIN
-        .footer
-          p Powered by&#xa0;
-            a(href='http://digitalocean.com', target='_blank') Digital Ocean
-            | &#xa0;and&#xa0;
-            a(href='http://twilio.com', target='_blank') Twilio
+        block footer
+          .footer
+            p Powered by&#xa0;
+              a(href='http://digitalocean.com', target='_blank') Digital Ocean
+              | &#xa0;and&#xa0;
+              a(href='http://twilio.com', target='_blank') Twilio
 
     script(type='text/javascript', src='https://cdn.socket.io/socket.io-1.2.1.js')
     script(type='text/javascript', src='/js/global.js')
