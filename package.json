@@ -14,6 +14,7 @@
     "lint": "eslint lib/"
   },
   "dependencies": {
+    "accepts": "^1.2.2",
     "boom": "~2.6.1",
     "concat-stream": "~1.4.7",
     "crumb": "~4.0.0",

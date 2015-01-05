@@ -135,7 +135,7 @@ var routes = [
   },
   {
     method: 'GET',
-    path: '/profile/export.{ext}',
+    path: '/profile/export{ext?}',
     handler: profile.exportPosts
   },
   {
