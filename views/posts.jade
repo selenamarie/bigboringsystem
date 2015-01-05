@@ -7,7 +7,7 @@ block content
     label(for='reply') reply links to previous posts? (space delimited)
       input(type='text', name='reply')
     label(for='content') content
-      textarea(rows='10', cols='90', name='content')
+      textarea(rows='10', cols='90', name='content', required)
     if error
       p.error= error
     input(type='hidden', name='crumb', value='#{crumb}')
