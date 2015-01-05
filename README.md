@@ -25,6 +25,10 @@ Then start the server:
 
 Visit http://localhost:3000 in your browser.
 
+#### Development Setup
+
+If you are trying to set up b.b.s. for local development only, you can use `npm run dev` instead of `npm start` to bypass certain requirements. For instance, you won't need to set up Twilio credentials at all and you won't even need to have a local.json file--it'll just use some simple defaults if you don't create one.
+
 ## Ops
 
 Make sure to add yourself as an op in local.json by entering your UID. You can find this on your http://localhost:3000/profile page near the top.
