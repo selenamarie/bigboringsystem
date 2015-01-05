@@ -134,6 +134,11 @@ var routes = [
     handler: services.profile
   },
   {
+    method: 'GET',
+    path: '/profile/export.{ext}',
+    handler: profile.exportPosts
+  },
+  {
     method: 'POST',
     path: '/profile',
     handler: profile.update,
@@ -229,7 +234,8 @@ server.ext('onPreResponse', function (request, reply) {
   var response = request.response;
   if (!response.isBoom) {
     if (['/profile', '/messages', '/chat', '/posts', '/links', '/users',
-         '/deleteaccount', '/post'].indexOf(request.path) > -1) {
+         '/deleteaccount', '/post', '/profile/export.json',
+         '/profile/export.csv'].indexOf(request.path) > -1) {
       if (!request.session.get('uid')) {
         return reply.redirect('/');
       }

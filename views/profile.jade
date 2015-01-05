@@ -31,6 +31,12 @@ block content
   for number in user.secondary
     p= user.secondary[number]
 
+  h2 export posts
+
+  a(href='/profile/export.json') .json
+  | &#xa0;
+  a(href='/profile/export.csv') .csv
+
   if (op && !userOp)
     h2.delete-account Delete account
     p If you delete this account, all posts associated with this will be removed.
