@@ -36,7 +36,7 @@ if (querystring.replyTo) {
   replyTo.value = protocol + '//' + hostname + port + '/post/' + postId;
 }
 
-var submitPost = function(e) {
+var submitPost = function (e) {
   if (e.keyCode === 13 && (e.metaKey || e.ctrlKey)) {
     form.submit();
   }
