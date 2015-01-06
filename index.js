@@ -266,6 +266,8 @@ server.ext('onPreResponse', function (request, reply) {
   var error = response;
   var ctx = {};
 
+  var message = error.output.payload.message;
+
   switch (error.output.statusCode) {
     case 404:
       ctx.reason = 'page not found';
@@ -280,10 +282,17 @@ server.ext('onPreResponse', function (request, reply) {
       break;
   }
 
+  if (process.env.npm_lifecycle_event === 'dev') {
+    console.log(error.stack || error);
+  }
+
   if (ctx.reason) {
+    // Use actual message if supplied
+    ctx.reason = message || ctx.reason;
     return reply.view('error', ctx);
   } else {
-    reply.redirect(request.path + '?err=' + error.output.payload.message.replace(/\s/gi, '+'));
+    ctx.reason = message.replace(/\s/gi, '+');
+    reply.redirect(request.path + '?err=' + ctx.reason);
   }
 });
 
