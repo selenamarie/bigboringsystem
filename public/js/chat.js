@@ -58,6 +58,33 @@
     httpRequest.send();
   }
 
+  var autocomplete = function (input) {
+    var usersEl = document.getElementById('users');
+
+    if (input.value.length > 0) {
+      var lastWord = input.value.split(' ').splice(-1)[0];
+
+      if (lastWord.length === 0) {
+        return;
+      }
+
+      var inputValueRegexp = new RegExp('^' + lastWord, 'i');
+      var userNodes = Array.prototype.concat.apply([], usersEl.childNodes);
+      var users = userNodes.map(function (node) {
+        return node.textContent;
+      });
+
+      var results = users.filter(function(user) {
+        return user.match(inputValueRegexp);
+      });
+
+      if (results.length > 0) {
+        var original = new RegExp(lastWord + '$', 'i');
+        input.value = input.value.replace(original, results[0]);
+      }
+    }
+  };
+
   getUserData();
 
   if (getChatSessionStorage){
@@ -71,6 +98,14 @@
     var message = document.querySelector('#message');
     socket.emit('message', message.value);
     message.value = '';
+  };
+
+  document.getElementById('message').onkeydown = function (event) {
+    if (event.keyCode === 9) {
+      event.preventDefault();
+
+      autocomplete(event.target);
+    }
   };
 
   socket.on('message', function (data) {
