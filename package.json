@@ -11,8 +11,10 @@
   "scripts": {
     "start": "gulp",
     "dev": "gulp",
-    "test": "lab",
-    "lint": "eslint lib/"
+    "test": "npm run lint -s && lab",
+    "lint": "npm run lint-server && npm run lint-frontend",
+    "lint-server": "eslint lib/",
+    "lint-frontend": "eslint -c .eslintrc-frontend public/js"
   },
   "dependencies": {
     "crumb": "~4.0.0",
