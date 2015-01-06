@@ -3,15 +3,15 @@
 var textarea = document.querySelector('textarea');
 var form = document.querySelector('form');
 
-var queryString = function() {
+var querystring = function () {
   var query_string = {};
   var query = window.location.search.substring(1);
-  var vars = query.split("&");
+  var vars = query.split('&');
   for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split("=");
-    if (typeof query_string[pair[0]] === "undefined") {
+    var pair = vars[i].split('=');
+    if (typeof query_string[pair[0]] === 'undefined') {
       query_string[pair[0]] = pair[1];
-    } else if (typeof query_string[pair[0]] === "string") {
+    } else if (typeof query_string[pair[0]] === 'string') {
       var arr = [query_string[pair[0]], pair[1]];
       query_string[pair[0]] = arr;
     } else {
@@ -24,14 +24,14 @@ var queryString = function() {
 var port = window.location.port;
 
 if (port !== 80) {
-  port = ":" + window.location.port;
+  port = ':' + window.location.port;
 }
 
-if (queryString.replyTo) {
+if (querystring.replyTo) {
   var replyTo = document.querySelector('#reply-to');
   var protocol = window.location.protocol;
   var hostname = window.location.hostname;
-  var postId = queryString.replyTo;
+  var postId = querystring.replyTo;
 
   replyTo.value = protocol + '//' + hostname + port + '/post/' + postId;
 }
