@@ -1,9 +1,8 @@
 {
-	"env": {
-		"browser": true
-	},
-	"rules": {
-		"quotes": [2, "single"],
-		"no-unused-vars": [1]
-	}
+    "env": {
+        "browser": true
+    },
+    "rules": {
+        "quotes": [2, "single"]
+    }
 }
