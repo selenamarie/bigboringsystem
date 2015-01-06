@@ -7,7 +7,7 @@ var qs = window.queryString.parse(location.search);
 
 var port = location.port;
 
-if (port !== 80) {
+if (port !== '') {
   port = ':' + location.port;
 }
 
