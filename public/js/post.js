@@ -3,35 +3,19 @@
 var textarea = document.querySelector('textarea');
 var form = document.querySelector('form');
 
-var querystring = function () {
-  var query_string = {};
-  var query = window.location.search.substring(1);
-  var vars = query.split('&');
-  for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split('=');
-    if (typeof query_string[pair[0]] === 'undefined') {
-      query_string[pair[0]] = pair[1];
-    } else if (typeof query_string[pair[0]] === 'string') {
-      var arr = [query_string[pair[0]], pair[1]];
-      query_string[pair[0]] = arr;
-    } else {
-      query_string[pair[0]].push(pair[1]);
-    }
-  }
-  return query_string;
-}();
+var qs = queryString.parse(location.search);
 
-var port = window.location.port;
+var port = location.port;
 
 if (port !== 80) {
-  port = ':' + window.location.port;
+  port = ':' + location.port;
 }
 
-if (querystring.replyTo) {
+if (qs.replyTo) {
   var replyTo = document.querySelector('#reply-to');
-  var protocol = window.location.protocol;
-  var hostname = window.location.hostname;
-  var postId = querystring.replyTo;
+  var protocol = location.protocol;
+  var hostname = location.hostname;
+  var postId = qs.replyTo;
 
   replyTo.value = protocol + '//' + hostname + port + '/post/' + postId;
 }
