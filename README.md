@@ -1,6 +1,6 @@
 # big boring system
 
-[![Build Status](https://travis-ci.org/bigboringsystem/bigboringsystem.svg?branch=CI)](https://travis-ci.org/bigboringsystem/bigboringsystem) [![Dependency Status](https://david-dm.org/bigboringsystem/bigboringsystem.svg)](https://david-dm.org/bigboringsystem/bigboringsystem)  [![devDependency Status](https://david-dm.org/bigboringsystem/bigboringsystem/dev-status.svg)](https://david-dm.org/bigboringsystem/bigboringsystem#info=devDependencies)
+[![Build Status](https://travis-ci.org/bigboringsystem/bigboringsystem.svg)](https://travis-ci.org/bigboringsystem/bigboringsystem) [![Dependency Status](https://david-dm.org/bigboringsystem/bigboringsystem.svg)](https://david-dm.org/bigboringsystem/bigboringsystem)  [![devDependency Status](https://david-dm.org/bigboringsystem/bigboringsystem/dev-status.svg)](https://david-dm.org/bigboringsystem/bigboringsystem#info=devDependencies)
 
 ## Feel like contributing?
 
