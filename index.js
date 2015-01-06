@@ -266,7 +266,9 @@ server.ext('onPreResponse', function (request, reply) {
   var error = response;
   var ctx = {};
 
-  switch (error.output.statusCode) {
+  ctx.reason = error.output.payload.message;
+
+  switch (!ctx.reason && error.output.statusCode) {
     case 404:
       ctx.reason = 'page not found';
       break;
@@ -275,15 +277,18 @@ server.ext('onPreResponse', function (request, reply) {
       break;
     case 500:
       ctx.reason = 'something went wrong';
+      console.log(error.stack || error);
       break;
     default:
       break;
   }
 
-  if (ctx.reason) {
-    return reply.view('error', ctx);
+  // Render client errors on the same page
+  if (error.output.statusCode === 400) {
+    ctx.reason = ctx.reason.replace(/\s/gi, '+');
+    reply.redirect(request.path + '?err=' + ctx.reason);
   } else {
-    reply.redirect(request.path + '?err=' + error.output.payload.message.replace(/\s/gi, '+'));
+    return reply.view('error', ctx);
   }
 });
 
