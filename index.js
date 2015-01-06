@@ -277,7 +277,7 @@ server.ext('onPreResponse', function (request, reply) {
       break;
     case 500:
       ctx.reason = 'something went wrong';
-      console.log(error.stack || error);
+      if (process.env.npm_lifecycle_event === 'dev') console.log(error.stack || error);
       break;
     default:
       break;
