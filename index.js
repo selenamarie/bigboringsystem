@@ -18,6 +18,12 @@ var chatUserCount = 0;
 
 var server = new Hapi.Server();
 
+if (!conf.get('port')) {
+  console.error('\n\'port\' is a required local.json field');
+  console.error('If you don\'t have a local.json file set up, please copy local.json-dist and fill in your config info before trying again\n');
+  process.exit(1);
+}
+
 server.connection({
   host: conf.get('domain'),
   port: conf.get('port')
@@ -260,6 +266,8 @@ server.ext('onPreResponse', function (request, reply) {
   var error = response;
   var ctx = {};
 
+  var message = error.output.payload.message;
+
   switch (error.output.statusCode) {
     case 404:
       ctx.reason = 'page not found';
@@ -274,10 +282,17 @@ server.ext('onPreResponse', function (request, reply) {
       break;
   }
 
+  if (process.env.npm_lifecycle_event === 'dev') {
+    console.log(error.stack || error);
+  }
+
   if (ctx.reason) {
+    // Use actual message if supplied
+    ctx.reason = message || ctx.reason;
     return reply.view('error', ctx);
   } else {
-    reply.redirect(request.path + '?err=' + error.output.payload.message.replace(/\s/gi, '+'));
+    ctx.reason = message.replace(/\s/gi, '+');
+    reply.redirect(request.path + '?err=' + ctx.reason);
   }
 });
 
@@ -303,7 +318,15 @@ server.register({
   options: options
 }, function (err) { });
 
-server.start(function () {
+server.start(function (err) {
+
+  if (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
+
+  console.log('\n  b.b.s. server running at ' + server.info.uri + '  \n');
+
   var io = SocketIO.listen(server.listener);
 
   io.on('connection', function (socket) {
