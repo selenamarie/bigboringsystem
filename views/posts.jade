@@ -5,7 +5,7 @@ block content
 
   form(method='post', action='/post')
     label(for='reply') reply links to previous posts? (space delimited)
-      input#replyTo(type='text', name='reply')
+      input#reply-to(type='text', name='reply')
     label(for='content') content
       textarea(rows='10', cols='90', name='content', required)
     if error
