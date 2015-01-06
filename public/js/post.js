@@ -3,7 +3,7 @@
 var textarea = document.querySelector('textarea');
 var form = document.querySelector('form');
 
-var qs = queryString.parse(location.search);
+var qs = window.queryString.parse(location.search);
 
 var port = location.port;
 
