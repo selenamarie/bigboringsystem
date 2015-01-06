@@ -11,13 +11,13 @@ if (port !== 80) {
   port = ':' + location.port;
 }
 
-if (qs.replyTo) {
-  var replyTo = document.querySelector('#reply-to');
+if (qs.reply_to) {
+  var reply_to = document.querySelector('#reply-to');
   var protocol = location.protocol;
   var hostname = location.hostname;
-  var postId = qs.replyTo;
+  var post_id = qs.reply_to;
 
-  replyTo.value = protocol + '//' + hostname + port + '/post/' + postId;
+  reply_to.value = protocol + '//' + hostname + port + '/post/' + post_id;
 }
 
 var submitPost = function (e) {
