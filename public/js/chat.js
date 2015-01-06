@@ -1,3 +1,4 @@
+/*global io */
 'use strict';
 
 (function () {
@@ -5,6 +6,8 @@
   var count = 0;
   var getChatSessionStorage = window.sessionStorage.getItem('chat');
   var chatEl = document.getElementById('chat');
+
+  var httpRequest = new XMLHttpRequest();
 
   var setUser = function () {
     if (httpRequest.readyState === 4) {
@@ -35,21 +38,25 @@
 
       time = '[' + hours + ':' + minutes + ':' + seconds + '] ';
     }
-    p.innerHTML = '<span class="timestamp">'+(time ? time : '')+'</span>' + '<strong>'+data.name+'</strong>' + ': ' + data.message;
+    p.innerHTML = '<span class="timestamp">' + (time ? time : '') + '</span>' + '<strong>' + data.name + '</strong>' + ': ' + data.message;
     var shouldScroll = (chatEl.scrollHeight - chatEl.scrollTop === chatEl.clientHeight);
     chatEl.appendChild(p);
     if (shouldScroll) {
       p.scrollIntoView();
     }
-    count ++;
+    count++;
 
     if (count > 100) {
       chatEl.removeChild(chatEl.getElementsByTagName('p')[0]);
-      count --;
+      count--;
     }
   };
 
-  var httpRequest = new XMLHttpRequest();
+  function getUserData() {
+    httpRequest.onreadystatechange = setUser;
+    httpRequest.open('GET', '/user');
+    httpRequest.send();
+  }
 
   getUserData();
 
@@ -57,12 +64,6 @@
     JSON.parse(getChatSessionStorage).forEach( function (data) {
       setChatMessage(data);
     });
-  }
-
-  function getUserData() {
-    httpRequest.onreadystatechange = setUser;
-    httpRequest.open('GET', '/user');
-    httpRequest.send();
   }
 
   document.getElementById('chat-form').onsubmit = function (event) {
