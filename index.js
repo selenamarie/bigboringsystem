@@ -153,7 +153,8 @@ var routes = [
         payload: {
           name: Joi.string().min(2).max(30),
           websites: Joi.string().allow(''),
-          bio: Joi.string().allow('')
+          bio: Joi.string().allow(''),
+          showreplies: Joi.string().allow('')
         }
       }
     }
@@ -209,6 +210,11 @@ var routes = [
     method: 'POST',
     path: '/post/{key}',
     handler: posts.del
+  },
+  {
+    method: 'POST',
+    path: '/reply/{key}',
+    handler: posts.delReply
   },
   {
     method: 'GET',
