@@ -5,11 +5,7 @@ var form = document.querySelector('form');
 
 var qs = window.queryString.parse(location.search);
 
-var port = location.port;
-
-if (port !== '') {
-  port = ':' + location.port;
-}
+var port = location.port ? ':' + location.port : '';
 
 if (qs.reply_to) {
   var replyto = document.querySelector('#reply-to');

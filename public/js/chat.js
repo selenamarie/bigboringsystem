@@ -87,8 +87,8 @@
 
   getUserData();
 
-  if (getChatSessionStorage){
-    JSON.parse(getChatSessionStorage).forEach( function (data) {
+  if (getChatSessionStorage) {
+    JSON.parse(getChatSessionStorage).forEach(function (data) {
       setChatMessage(data);
     });
   }
@@ -103,7 +103,6 @@
   document.getElementById('message').onkeydown = function (event) {
     if (event.keyCode === 9) {
       event.preventDefault();
-
       autocomplete(event.target);
     }
   };
