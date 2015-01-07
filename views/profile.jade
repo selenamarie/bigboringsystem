@@ -14,6 +14,12 @@ block content
       input(type='text', name='websites', value='#{user && user.websites ? user.websites : ""}')
     label bio
       textarea(rows='5', cols='50', name='bio')= (user && user.bio ? user.bio : "")
+    label
+      if user && user.showreplies
+        input(type='checkbox', name='showreplies', checked)
+      else
+        input(type='checkbox', name='showreplies')
+      = 'show replies to posts by default'
     input(type='hidden', name='crumb', value='#{crumb}')
     button(type='submit') save
 

@@ -40,7 +40,6 @@ var resetDB = function () {
 // or else leveldb will freak out.
 resetDB();
 
-
 var db = require('../lib/db');
 
 var Lab = require('lab');
@@ -74,7 +73,6 @@ var cookieHeader = function () {
   }).join(',');
   return ch;
 };
-
 
 // once tests are done, delete test db.
 lab.after(function (done) {
@@ -132,7 +130,6 @@ lab.test('unsuccessful authentication by multiple login attempts', function (don
   postLogin();
 });
 
-
 lab.test('log in with valid pin', function (done) {
   var options = {
     method: 'POST',
@@ -152,7 +149,6 @@ lab.test('log in with valid pin', function (done) {
     done();
   });
 });
-
 
 lab.test('authenticate with an invalid PIN', function (done) {
   var options = {
@@ -258,7 +254,6 @@ lab.test('create new post with session and name', function (done) {
   });
 });
 
-
 var uid, post, noreplypost, replypost;
 var getArticle = function (payload, snippet) {
   payload = payload.replace(/\n/g, ' ');
@@ -277,7 +272,6 @@ var getPostID = function (payload, snippet) {
   var postid = article.match(new RegExp('href="/post/post!([^"]+)"'))[1];
   return postid;
 };
-
 
 lab.test('verify post on /discover', function (done) {
   var options = {
@@ -312,7 +306,6 @@ lab.test('verify post on /discover', function (done) {
   });
 });
 
-
 lab.test('create post that doesnt show replies', function (done) {
   var options = {
     method: 'POST',
@@ -336,7 +329,6 @@ lab.test('create post that doesnt show replies', function (done) {
   });
 });
 
-
 lab.test('verify post on /discover', function (done) {
   var options = {
     method: 'GET',
@@ -358,8 +350,6 @@ lab.test('verify post on /discover', function (done) {
     done();
   });
 });
-
-
 
 lab.test('make a response post', function (done) {
   var options = {
@@ -387,7 +377,6 @@ lab.test('make a response post', function (done) {
     done();
   });
 });
-
 
 lab.test('verify post on /discover', function (done) {
   var options = {
@@ -450,7 +439,6 @@ lab.test('get csv export of posts', function (done) {
   });
 });
 
-
 lab.test('verify post shows reply', function (done) {
   var options = {
     method: 'GET',
@@ -488,7 +476,6 @@ lab.test('verify post shows reply', function (done) {
   });
 });
 
-
 lab.test('verify norelply post does not show reply', function (done) {
   var options = {
     method: 'GET',
@@ -510,7 +497,6 @@ lab.test('verify norelply post does not show reply', function (done) {
     done();
   });
 });
-
 
 lab.test('verify reply links to post', function (done) {
   var options = {
@@ -536,7 +522,6 @@ lab.test('verify reply links to post', function (done) {
   });
 });
 
-
 lab.test('invalid reply post id not stored, valid should be', function (done) {
   var postdb = db('posts');
   postdb.get('replyto!12345-ab!' + replypost, function (err, replyItem) {
@@ -550,7 +535,6 @@ lab.test('invalid reply post id not stored, valid should be', function (done) {
     });
   });
 });
-
 
 lab.test('delete replypost', function (done) {
   var options = {
@@ -572,7 +556,6 @@ lab.test('delete replypost', function (done) {
     done();
   });
 });
-
 
 lab.test('create another reply', function (done) {
   var options = {
@@ -619,7 +602,6 @@ lab.test('verify post on /discover', function (done) {
   });
 });
 
-
 lab.test('verify post shows second reply', function (done) {
   var options = {
     method: 'GET',
@@ -645,7 +627,6 @@ lab.test('verify post shows second reply', function (done) {
   });
 });
 
-
 lab.test('use the moderation form to delete second reply', function (done) {
   var options = {
     method: 'POST',
@@ -665,7 +646,6 @@ lab.test('use the moderation form to delete second reply', function (done) {
     done();
   });
 });
-
 
 lab.test('verify that replies section is gone', function (done) {
   var options = {
@@ -689,7 +669,6 @@ lab.test('verify that replies section is gone', function (done) {
   });
 });
 
-
 lab.test('post link redirect to canonical post url', function (done) {
   var options = {
     method: 'GET',
@@ -704,6 +683,92 @@ lab.test('post link redirect to canonical post url', function (done) {
 
     Code.expect(response.statusCode).to.equal(301);
     Code.expect(response.headers.location).to.equal('/post/post!' + post);
+    done();
+  });
+});
+
+lab.test('set showreplies in profile', function (done) {
+  var options = {
+    method: 'POST',
+    url: 'http://' + HOST + '/profile',
+    payload: {
+      name: 'Mx. Test',
+      websites: 'http://bigboringsystem.com https://x.y.z',
+      bio: 'Just a test account',
+      showreplies: 'on'
+    },
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    Code.expect(response.statusCode).to.equal(200);
+    var pattern = '<input type="checkbox" name="showreplies" checked>';
+    Code.expect(response.payload).to.match(new RegExp(pattern));
+    done()
+  });
+});
+
+lab.test('post page defaults to showing replies', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/posts',
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    var pattern = '<input type="checkbox" name="showreply" checked>';
+    Code.expect(response.payload).to.match(new RegExp(pattern));
+    done();
+  });
+});
+
+lab.test('set showreplies to false in profile', function (done) {
+  var options = {
+    method: 'POST',
+    url: 'http://' + HOST + '/profile',
+    payload: {
+      name: 'Mx. Test',
+      websites: 'http://bigboringsystem.com https://x.y.z',
+      bio: 'Just a test account',
+      showreplies: 'this is not a valid value so it unchecks'
+    },
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    Code.expect(response.statusCode).to.equal(200);
+    var pattern = '<input type="checkbox" name="showreplies">';
+    Code.expect(response.payload).to.match(new RegExp(pattern));
+    done()
+  });
+});
+
+lab.test('post page defaults to not showing replies', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/posts',
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+
+    var pattern = '<input type="checkbox" name="showreply">';
+    Code.expect(response.payload).to.match(new RegExp(pattern));
     done();
   });
 });

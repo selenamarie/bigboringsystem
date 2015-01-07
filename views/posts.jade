@@ -9,7 +9,10 @@ block content
     label content
       textarea(rows='10', cols='90', name='content', required)
     label
-      input(type='checkbox', name='showreply')
+      if user.showreplies
+        input(type='checkbox', name='showreply', checked)
+      else
+        input(type='checkbox', name='showreply')
       = 'show replies to this post'
     if error
       p.error= error

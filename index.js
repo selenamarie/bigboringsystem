@@ -153,7 +153,8 @@ var routes = [
         payload: {
           name: Joi.string().min(2).max(30),
           websites: Joi.string().allow(''),
-          bio: Joi.string().allow('')
+          bio: Joi.string().allow(''),
+          showreplies: Joi.string().allow('')
         }
       }
     }
