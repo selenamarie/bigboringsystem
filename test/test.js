@@ -210,6 +210,24 @@ lab.test('create new post without a session', function (done) {
   });
 });
 
+lab.test('profile page defaults to showing replies', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/profile',
+    headers: {
+      cookie: cookieHeader()
+    }
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+    var pattern = '<input type="checkbox" name="showreplies" checked>';
+    Code.expect(response.statusCode).to.equal(200);
+    Code.expect(response.payload).to.match(new RegExp(pattern));
+    done();
+  });
+});
+
 lab.test('add name to profile', function (done) {
   var options = {
     method: 'POST',
