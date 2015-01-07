@@ -4,9 +4,9 @@ block content
   h1 my posts
 
   form(method='post', action='/post')
-    label(for='reply') reply links to previous posts? (space delimited)
+    label reply links to previous posts? (space delimited)
       input#reply-to(type='text', name='reply')
-    label(for='content') content
+    label content
       textarea(rows='10', cols='90', name='content', required)
     if error
       p.error= error
