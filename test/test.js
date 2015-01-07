@@ -241,7 +241,7 @@ lab.test('create new post with session and name', function (done) {
     payload: {
       reply: '',
       content: 'Ye olde goode poste',
-      showreply: 'on',
+      showreplies: 'on',
       fuzze: 'some fuzes fore goode measuries'
     }
   };
@@ -365,7 +365,7 @@ lab.test('make a response post', function (done) {
              // this doesn't track replies
              'http://' + HOST + '/post/post!' + noreplypost,
       content: 'Reply forthwith',
-      showreply: 'on',
+      showreplies: 'on',
       fuzziewuzzywasabear: 'some fuzes fore goode measuries'
     }
   };
@@ -569,7 +569,7 @@ lab.test('create another reply', function (done) {
              // this isn't a valid link
              'http://' + HOST + '/post/post!12345-ab',
       content: 'replyparttwo',
-      showreply: 'on',
+      showreplies: 'on',
       fuzziewuzzywasabear: 'some fuzes fore goode measuries'
     }
   };
@@ -724,7 +724,7 @@ lab.test('post page defaults to showing replies', function (done) {
   server.inject(options, function (response) {
     saveCookies(response);
 
-    var pattern = '<input type="checkbox" name="showreply" checked>';
+    var pattern = '<input type="checkbox" name="showreplies" checked>';
     Code.expect(response.payload).to.match(new RegExp(pattern));
     done();
   });
@@ -767,7 +767,7 @@ lab.test('post page defaults to not showing replies', function (done) {
   server.inject(options, function (response) {
     saveCookies(response);
 
-    var pattern = '<input type="checkbox" name="showreply">';
+    var pattern = '<input type="checkbox" name="showreplies">';
     Code.expect(response.payload).to.match(new RegExp(pattern));
     done();
   });
