@@ -320,7 +320,8 @@ if (process.env.NODE_ENV !== 'test') {
 var options = {
   cookieOptions: {
     password: conf.get('cookie'),
-    isSecure: false
+    isSecure: false,
+    clearInvalid: true
   }
 };
 
