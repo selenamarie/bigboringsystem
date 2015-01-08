@@ -7,7 +7,7 @@ block content
       input(type='hidden', name='crumb', value='#{crumb}')
       button(type='submit') x delete
   h1
-    a(href='/user/#{post.uid}')= post.name
+    a(href='/user/#{post.uid}')!= post.name
   article
     time= post.created
 
