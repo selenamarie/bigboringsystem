@@ -371,7 +371,7 @@ server.start(function (err) {
 
     socket.on('message', function (data) {
       var messageLength = data.trim().length;
-      if (socket.user && messageLength > 0 && messageLength < 140) {
+      if (socket.user && messageLength > 0 && messageLength < 141) {
         io.emit('message', {
           name: socket.user,
           uid: socket.uid,
