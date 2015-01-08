@@ -396,6 +396,41 @@ lab.test('make a response post', function (done) {
   });
 });
 
+lab.test('verify unauthorized user cannot reply to post', function (done) {
+  // no cookie har for unauthed user
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/post/post!' + post
+  };
+
+  server.inject(options, function (response) {
+    var pattern = '<a href="/posts?reply_to=post!'+ post +'">Reply to this post</a>';
+    Code.expect(response.statusCode).to.equal(200);
+    Code.expect(response.payload).to.not.match(new RegExp(pattern));
+    done();
+  });
+});
+
+lab.test('verify authorized user can reply to post', function (done) {
+  var options = {
+    method: 'GET',
+    url: 'http://' + HOST + '/post/post!' + post,
+    headers: {
+      cookie: cookieHeader()
+    },
+  };
+
+  server.inject(options, function (response) {
+    saveCookies(response);
+    var pattern = '<a href="/posts?reply_to=post!'+ post +'">Reply to this post</a>';
+    Code.expect(response.statusCode).to.equal(200);
+    Code.expect(response.payload).to.not.match(new RegExp(pattern));
+    done();
+  });
+});
+
+
+
 lab.test('verify post on /discover', function (done) {
   var options = {
     method: 'GET',

@@ -16,8 +16,9 @@ block content
         != post.reply
 
     pre!= post.content
-    div.reply-to-post
-      a(href='/posts?reply_to=#{id}') Reply to this post
+    if session
+      div.reply-to-post
+        a(href='/posts?reply_to=#{id}') Reply to this post
 
     if post.replies && post.replies.length
       p.reply replies:
