@@ -97,6 +97,11 @@ var routes = [
     handler: services.authenticate
   },
   {
+    method: 'GET',
+    path: '/privacy',
+    handler: services.privacy
+  },
+  {
     method: 'POST',
     path: '/authenticate',
     handler: auth.authenticate,
