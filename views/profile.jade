@@ -9,7 +9,7 @@ block content
     if error
       p.error= error
     label name*
-      input(type='text', name='name', value='#{user && user.name ? user.name : ""}', required)
+      input(type='text', name='name', value!='#{user && user.name ? user.name : ""}', required)
     label websites (space delimited)
       input(type='text', name='websites', value='#{user && user.websites ? user.websites : ""}')
     label bio
