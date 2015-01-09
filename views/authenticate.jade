@@ -5,7 +5,7 @@ block content
 
   if (process.env.npm_lifecycle_event === 'dev')
     p
-      strong Development Mode: 
+      strong Development Mode:
       span= 'Use ' + testPin + ' to login'
 
   else
@@ -13,9 +13,9 @@ block content
 
 block login
   form(method='post', action='/authenticate')
-    input(type='text', name='pin', autocomplete='off', required)
+    input(type='text', name='pin', autocomplete='off', required, autofocus)
     if error
       p.error= error
     input(type='hidden', name='crumb', value='#{crumb}')
     button(type='submit') log in
-    
+
