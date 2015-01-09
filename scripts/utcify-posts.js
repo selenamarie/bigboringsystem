@@ -17,7 +17,8 @@ getPosts(function (err, posts) {
     updatePosts(posts, function (err) {
         if (err) { throw err; }
 
-        console.log('Done');
+        process.stdout.write('\n');
+        console.log('Successfully processed ' + posts.length + ' post timezones');
         process.exit();
     });
 });
@@ -36,6 +37,13 @@ function updatePosts(posts, next) {
   var processed = 0;
 
   posts.forEach(function updatePost(post) {
+
+    if (process.argv[2] === '--test') {
+      console.log(post.value.created);
+      return next(null);
+    }
+
+    process.stdout.write('.');
 
     if (post.value.created[post.value.created.length - 1] !== 'Z') {
       post.value.created = (new Date(+post.value.created * 1000)).toISOString();
