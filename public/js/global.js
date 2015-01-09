@@ -33,7 +33,7 @@
     window.sessionStorage.setItem('chat', JSON.stringify(chatArr));
   });
 
-  if (timeEls != null) {
+  if (timeEls !== null) {
     [].forEach.call(timeEls, function (timeEl) {
       timeEl.innerText = localDate(timeEl.getAttribute('datetime'));
     });
