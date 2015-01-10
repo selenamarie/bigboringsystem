@@ -10,6 +10,7 @@ var concat = require('concat-stream');
 // does this user have a name filled out? if not, we can drop the accountvar server = require('../index');
 var dbs = require('../lib/db');
 var profiledb = dbs('profile');
+var utils = require('../lib/utils');
 
 var posts = require('../lib/posts');
 
@@ -40,13 +41,14 @@ rs.pipe(concat(function (users) {
       var userData = user.value;
 
       // if +1 doesn't exist, make it exist
-      if (userData.phone.indexOf('+1') === -1) {
+      var updatedPhone = utils.fixNumber(userData.phone);
+      if (updatedPhone !== userData.phone) {
         count ++;
-        userData.phone = '+1' + userData.phone;
+        userData.phone = updatedPhone;
 
         // save new record
-        profiledb.put('user!' + userData.phone, userData);
-        profiledb.put('uid!' + userData.uid, userData.phone);
+        profiledb.put('user!' + updatedPhone, userData);
+        profiledb.put('uid!' + userData.uid, updatedPhone);
 
         // delete old records
         profiledb.del(user.key);
