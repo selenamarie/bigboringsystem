@@ -7,5 +7,6 @@
     "twilioToken": "<auth token>",
     "twilioNumber": "15555555555",
     "ops": [],
-    "db": "./db"
+    "db": "./db",
+    "phoneSalt": "<make me a random string>"
 }
