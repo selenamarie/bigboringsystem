@@ -867,7 +867,9 @@ lab.test('missing post is a 404 response', function (done) {
     saveCookies(response);
 
     Code.expect(response.statusCode).to.equal(404);
-    var pattern = 'Key not found in database \\[post!nope\\]';
+    var pattern = '<h2>Key not found in database \\[post!nope\\]</h2>';
+    Code.expect(response.payload).to.match(new RegExp(pattern));
+    pattern = '<h1>error 404 not found</h1>'
     Code.expect(response.payload).to.match(new RegExp(pattern));
     done();
   });

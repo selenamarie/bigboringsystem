@@ -5,6 +5,7 @@ var conf = require('./lib/conf');
 var Boom = require('boom');
 var Joi = require('joi');
 var SocketIO = require('socket.io');
+var http = require('http');
 
 var services = require('./lib/services');
 var profile = require('./lib/profile');
@@ -284,6 +285,8 @@ server.ext('onPreResponse', function (request, reply) {
 
   var message = error.output.payload.message;
   var statusCode = error.output.statusCode || 500;
+  ctx.code = statusCode;
+  ctx.httpMessage = http.STATUS_CODES[statusCode].toLowerCase();
 
   switch (statusCode) {
     case 404:
