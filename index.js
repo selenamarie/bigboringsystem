@@ -359,9 +359,15 @@ server.start(function (err) {
 
     socket.on('disconnect', function () {
       console.log('disconnected')
-      delete chatUsers[socket.uid];
-      chatUserCount --;
 
+      var userStillConnected = io.sockets.sockets.reduce(function(memo, sock) {
+        return memo || sock.uid === socket.uid;
+      }, false);
+      if (!userStillConnected) {
+        delete chatUsers[socket.uid];
+      }
+
+      chatUserCount --;
       if (chatUserCount < 0) {
         chatUserCount = 0;
       }
