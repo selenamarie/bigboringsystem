@@ -451,6 +451,34 @@ lab.test('verify post on /discover', function (done) {
   });
 });
 
+lab.test('make sure rss is xml', function (done) {
+  var options = {
+    method: 'GET',
+    url: '/rss',
+  };
+
+  server.inject(options, function (response) {
+    Code.expect(response.headers['content-type']).to.equal('application/xml');
+    Code.expect(response.statusCode).to.equal(200);
+    done();
+  });
+});
+
+lab.test('make sure posts make it to rss', function (done) {
+
+  var options = {
+    method: 'GET',
+    url: '/rss',
+  };
+
+  server.inject(options, function (response) {
+    var pattern = 'http://' + HOST + '/post!'+ post;
+    Code.expect(response.statusCode).to.equal(200);
+    Code.expect(response.payload).to.not.match(new RegExp(pattern));
+    done();
+  });
+});
+
 var exportData = [];
 lab.test('get json export of posts', function (done) {
   var options = {
