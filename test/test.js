@@ -422,9 +422,9 @@ lab.test('verify authorized user can reply to post', function (done) {
 
   server.inject(options, function (response) {
     saveCookies(response);
-    var pattern = '<a href="/posts?reply_to=post!'+ post +'">Reply to this post</a>';
+    var pattern = 'Reply to this post';
     Code.expect(response.statusCode).to.equal(200);
-    Code.expect(response.payload).to.not.match(new RegExp(pattern));
+    Code.expect(response.payload).to.match(new RegExp(pattern));
     done();
   });
 });
