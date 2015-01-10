@@ -6,6 +6,7 @@
   var count = 0;
   var getChatSessionStorage = window.sessionStorage.getItem('chat');
   var chatEl = document.getElementById('chat');
+  var name = '';
 
   var httpRequest = new XMLHttpRequest();
 
@@ -13,7 +14,9 @@
     if (httpRequest.readyState === 4) {
       if (httpRequest.status === 200) {
         console.log(httpRequest.responseText);
-        socket.emit('user', JSON.parse(httpRequest.responseText));
+        var resp = JSON.parse(httpRequest.responseText);
+        name = resp.name;
+        socket.emit('user', resp);
       }
     }
   };
@@ -38,9 +41,21 @@
 
       time = '[' + hours + ':' + minutes + ':' + seconds + '] ';
     }
-    p.innerHTML = '<span class="timestamp">' + (time ? time : '') + '</span>' + '<strong>' + data.name + '</strong>' + ': ' + data.message;
+
+    // highlight a username's own name in any message
+    var message = data.message;
+    if (name) {
+      var regexName = new RegExp(name, 'i');
+
+      // syntactic sugar to use the matched string as the highlighted name, not the sanitized name
+      message = message.replace(regexName, '<span class=\"highlight\">$&</span>');
+    }
+
+    p.innerHTML = '<span class="timestamp">' + (time ? time : '') + '</span>' + '<strong>' + data.name + '</strong>' + ': ' + message;
+
     var shouldScroll = (chatEl.scrollHeight - chatEl.scrollTop === chatEl.clientHeight);
     chatEl.appendChild(p);
+
     if (shouldScroll) {
       p.scrollIntoView();
     }
