@@ -283,8 +283,9 @@ server.ext('onPreResponse', function (request, reply) {
   var ctx = {};
 
   var message = error.output.payload.message;
+  var statusCode = error.output.statusCode || 500;
 
-  switch (error.output.statusCode) {
+  switch (statusCode) {
     case 404:
       ctx.reason = 'page not found';
       break;
@@ -305,7 +306,7 @@ server.ext('onPreResponse', function (request, reply) {
   if (ctx.reason) {
     // Use actual message if supplied
     ctx.reason = message || ctx.reason;
-    return reply.view('error', ctx);
+    return reply.view('error', ctx).code(statusCode);
   } else {
     ctx.reason = message.replace(/\s/gi, '+');
     reply.redirect(request.path + '?err=' + ctx.reason);
