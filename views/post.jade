@@ -30,7 +30,7 @@ block content
             button(type='submit') X
         a(href='/post/post!#{reply.postid}')= reply.created
         = ' - '
-        a(href='/user/#{reply.uid}')= reply.name
+        a(href='/user/#{reply.uid}')!= reply.name
         br
 
 block login
