@@ -7,6 +7,8 @@ var Joi = require('joi');
 var SocketIO = require('socket.io');
 var http = require('http');
 var Hoek = require('hoek');
+var cookie = require('cookie');
+var Iron = require('iron');
 
 var services = require('./lib/services');
 var profile = require('./lib/profile');
@@ -352,19 +354,27 @@ server.start(function (err) {
   var io = SocketIO.listen(server.listener);
 
   io.on('connection', function (socket) {
+    var cookies = cookie.parse(socket.request.headers.cookie);
+
     console.log('connected to local socket');
 
-    socket.on('user', function (user) {
-      if (socket.user || socket.uid) {
+    socket.on('user', function () {
+      if (socket.user || socket.uid || !cookies.session) {
         return;
       }
-      console.log('user connected ', user)
-      socket.user = Hoek.escapeHtml(user.name).substring(0, 30);
-      socket.uid = Hoek.escapeHtml(user.uid);
-      chatUsers[user.uid] = Hoek.escapeHtml(user.name);
-      chatUserCount ++;
 
-      io.emit('users', chatUsers);
+      Iron.unseal(cookies.session, conf.get('cookie'), Iron.defaults, function (err, session) {
+        if (err || !session._store) return;
+
+        var user = session._store;
+        console.log('user connected ', user)
+        socket.user = Hoek.escapeHtml(user.name);
+        socket.uid = Hoek.escapeHtml(user.uid);
+        chatUsers[user.uid] = Hoek.escapeHtml(user.name);
+        chatUserCount ++;
+
+        io.emit('users', chatUsers);
+      });
     });
 
     socket.on('disconnect', function () {
