@@ -8,19 +8,6 @@
   var chatEl = document.getElementById('chat');
   var name = '';
 
-  var httpRequest = new XMLHttpRequest();
-
-  var setUser = function () {
-    if (httpRequest.readyState === 4) {
-      if (httpRequest.status === 200) {
-        console.log(httpRequest.responseText);
-        var resp = JSON.parse(httpRequest.responseText);
-        name = resp.name;
-        socket.emit('user', resp);
-      }
-    }
-  };
-
   var formatTime = function (date) {
     if (date > 9) {
       return date;
@@ -67,12 +54,6 @@
     }
   };
 
-  function getUserData() {
-    httpRequest.onreadystatechange = setUser;
-    httpRequest.open('GET', '/user');
-    httpRequest.send();
-  }
-
   var autocomplete = function (input) {
     var usersEl = document.getElementById('users');
 
@@ -99,8 +80,6 @@
       }
     }
   };
-
-  getUserData();
 
   if (getChatSessionStorage) {
     JSON.parse(getChatSessionStorage).forEach(function (data) {
@@ -138,7 +117,11 @@
     }
   });
 
+  socket.on('name', function (data) {
+    name = data;
+  });
+
   socket.on('connect', function () {
-    getUserData();
+    socket.emit('user');
   });
 })();
