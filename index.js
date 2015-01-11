@@ -374,6 +374,7 @@ server.start(function (err) {
         chatUserCount ++;
 
         io.emit('users', chatUsers);
+        socket.emit('name', user.name);
       });
     });
 

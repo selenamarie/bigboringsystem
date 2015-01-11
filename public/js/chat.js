@@ -117,6 +117,10 @@
     }
   });
 
+  socket.on('name', function (data) {
+    name = data;
+  });
+
   socket.on('connect', function () {
     socket.emit('user');
   });
