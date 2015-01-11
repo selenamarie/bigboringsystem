@@ -6,6 +6,7 @@ var Boom = require('boom');
 var Joi = require('joi');
 var SocketIO = require('socket.io');
 var http = require('http');
+var Hoek = require('hoek');
 
 var services = require('./lib/services');
 var profile = require('./lib/profile');
@@ -358,9 +359,9 @@ server.start(function (err) {
         return;
       }
       console.log('user connected ', user)
-      socket.user = user.name;
-      socket.uid = user.uid;
-      chatUsers[user.uid] = user.name;
+      socket.user = Hoek.escapeHtml(user.name).substring(0, 30);
+      socket.uid = Hoek.escapeHtml(user.uid);
+      chatUsers[user.uid] = Hoek.escapeHtml(user.name);
       chatUserCount ++;
 
       io.emit('users', chatUsers);
