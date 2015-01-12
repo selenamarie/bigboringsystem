@@ -76,7 +76,7 @@
 
       if (results.length > 0) {
         var original = new RegExp(lastWord + '$', 'i');
-        input.value = input.value.replace(original, results[0]);
+        input.value = input.value.replace(original, results[0] + ': ');
       }
     }
   };
