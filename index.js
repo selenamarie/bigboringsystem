@@ -238,6 +238,11 @@ var routes = [
     method: 'POST',
     path: '/deleteaccount',
     handler: profile.deleteAccount
+  },
+  {
+    method: 'GET',
+    path: '/no_new_accounts',
+    handler: services.no_new_accounts
   }
 ];
 
