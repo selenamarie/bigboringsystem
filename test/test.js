@@ -74,6 +74,23 @@ var cookieHeader = function () {
   return ch;
 };
 
+// Need this stub for tests during useradding moratorium
+var addNewUser = function (uid, phone) {
+};
+
+// before we start, get our fixture user into the db
+var profdb = db('profile');
+var fixture = require('./fixtures.json');
+
+profdb.put('uid!' + fixture.uid, fixture.phone, function (err) {
+    profdb.put('user!' + fixture.phone, {
+      uid: fixture.uid,
+      phone: fixture.phone,
+      showreplies: true,
+      secondary: {}
+    });
+});
+
 // once tests are done, delete test db.
 lab.after(function (done) {
   resetDB();
