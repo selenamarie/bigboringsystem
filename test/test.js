@@ -113,7 +113,8 @@ lab.test('successful authentication by phone number generates a PIN', function (
     saveCookies(response);
 
     Code.expect(response.statusCode).to.equal(302);
-    Code.expect(response.headers.location).to.equal('/authenticate');
+    // Code.expect(response.headers.location).to.equal('/authenticate');
+    Code.expect(response.headers.location).to.equal('/no_new_accounts');
     done();
   });
 });
@@ -134,7 +135,8 @@ lab.test('unsuccessful authentication by multiple login attempts', function (don
       Code.expect(response.statusCode).to.equal(302);
 
       if (count <= 3) {
-        Code.expect(response.headers.location).to.equal('/authenticate');
+        // Code.expect(response.headers.location).to.equal('/authenticate');
+        Code.expect(response.headers.location).to.equal('/no_new_accounts');
         postLogin();
         count ++;
       } else {
