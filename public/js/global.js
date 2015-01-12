@@ -35,7 +35,7 @@
 
   if (timeEls !== null) {
     [].forEach.call(timeEls, function (timeEl) {
-      timeEl.innerText = localDate(timeEl.getAttribute('datetime'));
+      timeEl.textContent = localDate(timeEl.getAttribute('datetime'));
     });
   }
 })();
