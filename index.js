@@ -242,7 +242,7 @@ var routes = [
   {
     method: 'GET',
     path: '/no_new_accounts',
-    handler: services.no_new_accounts
+    handler: services.noNewAccounts
   }
 ];
 
